@@ -11,6 +11,16 @@ import UIKit
 // Some constants to use.
 let APPEAR_ANIMATION_DURATION = 0.3
 
+/// Represents the state of shift
+enum KeyboardShiftState {
+	/// Shift is disabled—- types lowercase.
+	case Disabled
+	/// Shift is enabled-- types capitals.
+	case Enabled
+	/// Shift is locked-- continue to type capitals.
+	case Locked
+}
+
 class KeyboardViewController: UIInputViewController {
 	
 	let row1 = KeyboardViewController.createRow()
@@ -26,6 +36,12 @@ class KeyboardViewController: UIInputViewController {
 	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
 	let row3Letters = ["Z","X","C","V","B","N","M"]
 	
+	var shiftState: KeyboardShiftState = .Disabled {
+		didSet {
+			
+		}
+	}
+
 	let shiftButton : UIButton = {
 		let button = UIButton.buttonWithType(.System) as UIButton
 		button.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -251,6 +267,45 @@ class KeyboardViewController: UIInputViewController {
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
     }
 	
+	func casedLetterForLetter(letter: String) -> String {
+		switch self.shiftState {
+			case .Locked, .Enabled:
+				return letter.uppercaseString
+			case .Disabled:
+				return letter.lowercaseString
+		}
+	}
+	
+	func typeLetter(letter: String) {
+		let proxy = self.textDocumentProxy as UITextDocumentProxy
+		let casedLetter = casedLetterForLetter(letter)
+		proxy.insertText(casedLetter)
+		
+		switch self.shiftState {
+			case .Locked:
+				break
+			case .Enabled:
+				self.shiftState = .Disabled
+			case .Disabled:
+				break
+		}
+	}
+	
+	func deleteCharacter() {
+		let proxy = self.textDocumentProxy as UITextDocumentProxy
+		proxy.deleteBackward()
+	}
+	
+	func deleteWord() {
+		let proxy = self.textDocumentProxy as UITextDocumentProxy
+		if let precedingContext = proxy.documentContextBeforeInput {
+			let numTimesToDelete = precedingContext.numberOfElementsToDeleteToDeleteLastWord()
+			for i in 0...numTimesToDelete {
+				proxy.deleteBackward()
+			}
+		}
+	}
+	
 	// MARK: Gestures
 	
 	func didTap(sender: UIGestureRecognizer) {
@@ -262,8 +317,7 @@ class KeyboardViewController: UIInputViewController {
 					let subviewPoint = sender.locationInView(subview)
 					if subview.pointInside(subviewPoint, withEvent: nil) {
 						if let key = subview as? KeyboardKey {
-							let proxy = self.textDocumentProxy as UITextDocumentProxy
-							proxy.insertText(key.letter)
+							typeLetter(key.letter)
 						}
 					}
 				}
@@ -289,21 +343,21 @@ class KeyboardViewController: UIInputViewController {
 	/// TODO: Fix this once `documentContextBeforeInput` stops always returning nil.
 	/// Did a left swipe gesture. Delete until previous chunk of whitespace.
 	func didSwipeLeft(sender: UIGestureRecognizer) {
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		if let precedingContext = proxy.documentContextBeforeInput {
-			let numTimesToDelete = precedingContext.numberOfElementsToDeleteToDeleteLastWord()
-			for i in 0...numTimesToDelete {
-				proxy.deleteBackward()
-			}
-		}
-	}
-	
-	func shiftKeyPressed(sender: UIButton) {
-		
+		self.deleteWord()
 	}
 	
 	func deleteKeyPressed(sender: UIButton) {
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		proxy.deleteBackward()
+		self.deleteCharacter()
+	}
+	
+	func shiftKeyPressed(sender: UIButton) {
+		switch self.shiftState {
+		case .Disabled:
+			self.shiftState = .Enabled
+		case .Enabled:
+			self.shiftState = .Disabled
+		case .Locked:
+			self.shiftState = .Disabled
+		}
 	}
 }
