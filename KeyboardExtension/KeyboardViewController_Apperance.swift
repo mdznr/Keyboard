@@ -10,8 +10,12 @@ import UIKit
 
 extension KeyboardViewController {
 	
+	class func keyboardLetterFont() -> UIFont {
+		return UIFont.systemFontOfSize(24)
+	}
+	
 	/// The color to use for the background.
-	func keyboardBackgroundColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
+	class func keyboardBackgroundColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
 			return UIColor.blackColor()
@@ -21,7 +25,7 @@ extension KeyboardViewController {
 	}
 	
 	/// The color to use for primary buttons, such as letters.
-	func primaryButtonColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
+	class func primaryButtonColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
 			return UIColor(white: 1, alpha: 0.8)
@@ -31,7 +35,7 @@ extension KeyboardViewController {
 	}
 	
 	/// The color to use for secondary buttons, like next keyboard, shift, delete.
-	func secondaryButtonColorForApperance(appearance: UIKeyboardAppearance) -> UIColor {
+	class func secondaryButtonColorForApperance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
 			return UIColor(white: 1, alpha: 0.33)
@@ -41,7 +45,7 @@ extension KeyboardViewController {
 	}
 	
 	/// The color to use for buttons--like the return key or shift key--when they're enabled.
-	func enabledButtonColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
+	class func enabledButtonColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
 			return UIColor(hue: 0.6, saturation: 0.9, brightness: 1, alpha: 1)
@@ -51,7 +55,7 @@ extension KeyboardViewController {
 	}
 	
 	/// The color to use for the dividers between rows.
-	func dividerColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
+	class func dividerColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
 			return UIColor(white: 1, alpha: 0.10)
