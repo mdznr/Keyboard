@@ -37,7 +37,7 @@ class KeyboardViewController: UIInputViewController {
 		
 		let views = ["divider": divider]
 		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[divider]|", options: nil, metrics: nil, views: views))
-		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[divider(0.5)]|", options: nil, metrics: nil, views: views))
+		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[divider(0.5)]", options: nil, metrics: nil, views: views))
 		
 		return view
 	}
@@ -62,18 +62,18 @@ class KeyboardViewController: UIInputViewController {
 			"row4": row4
 		]
 		for (rowName, row) in rows {
-			self.inputView.addSubview(row)
+			self.view.addSubview(row)
 		}
 		let row1Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row1]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row1Constraints)
+		self.view.addConstraints(row1Constraints)
 		let row2Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row2]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row2Constraints)
+		self.view.addConstraints(row2Constraints)
 		let row3Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row3]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row3Constraints)
+		self.view.addConstraints(row3Constraints)
 		let row4Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row4]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row4Constraints)
+		self.view.addConstraints(row4Constraints)
 		let rowConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[row1(59)][row2(55)][row3(54)][row4(48)]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(rowConstraints)
+		self.view.addConstraints(rowConstraints)
 		
 		// Row 1
 		for letter in row1Letters {
@@ -135,7 +135,11 @@ class KeyboardViewController: UIInputViewController {
 		// Gestures
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: "didSwipeLeft:")
 		swipeLeft.direction = .Left
-		self.inputView.addGestureRecognizer(swipeLeft)
+		self.view.addGestureRecognizer(swipeLeft)
+		
+		let press = UILongPressGestureRecognizer(target: self, action: "didPress:")
+		press.minimumPressDuration = 0
+//		self.view.addGestureRecognizer(press)
     }
 	
 	override func viewDidAppear(animated: Bool) {
@@ -145,7 +149,7 @@ class KeyboardViewController: UIInputViewController {
 			delay: 0,
 			options: .BeginFromCurrentState | .CurveEaseInOut | .AllowAnimatedContent | .AllowUserInteraction,
 			animations: {
-				self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(self.keyboardAppearance())
+				self.view.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(self.keyboardAppearance())
 			},
 			completion: nil)
 		*/
@@ -167,12 +171,27 @@ class KeyboardViewController: UIInputViewController {
 		
 		// Change visual appearance.
 		let appearance = self.keyboardAppearance()
-		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
+		self.view.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
 		KeyboardKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
 		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
     }
 	
 	// MARK: Gestures
+	
+	func didPress(sender: UIGestureRecognizer) {
+		switch sender.state {
+			case .Began:
+				break
+			case .Changed:
+				break
+			case .Ended:
+				break
+			case .Cancelled:
+				fallthrough
+			default:
+				break
+		}
+	}
 	
 	/// TODO: Fix this once `documentContextBeforeInput` stops always returning nil.
 	/// Did a left swipe gesture. Delete until previous chunk of whitespace.
