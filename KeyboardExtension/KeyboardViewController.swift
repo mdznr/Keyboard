@@ -14,12 +14,6 @@ let APPEAR_ANIMATION_DURATION = 0.3
 class KeyboardViewController: UIInputViewController {
 
 	@IBOutlet var nextKeyboardButton: UIButton
-	
-	@lazy var label : UILabel = {
-		let l = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 80)) as UILabel
-		l.text = "asdf"
-		return l
-	}()
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -35,18 +29,20 @@ class KeyboardViewController: UIInputViewController {
 		
         // Perform custom UI setup here
 		self.nextKeyboardButton = UIButton.buttonWithType(.System) as UIButton
-		nextKeyboardButton.setTitle(NSLocalizedString("Next", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
+		nextKeyboardButton.setImage(UIImage(named: "Globe"), forState: .Normal)
 		nextKeyboardButton.sizeToFit()
 		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
         self.view.addSubview(nextKeyboardButton)
 		
-		self.view.addSubview(label)
-    
-        var nextKeyboardButtonLeftSideConstraint = NSLayoutConstraint(item: self.nextKeyboardButton, attribute: .Left, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 0.0)
-        var nextKeyboardButtonBottomConstraint = NSLayoutConstraint(item: self.nextKeyboardButton, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
-        self.view.addConstraints([nextKeyboardButtonLeftSideConstraint, nextKeyboardButtonBottomConstraint])
+		// Auto layout
+		let views = [
+			"nextKeyboardButton": nextKeyboardButton
+		]
+		self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(54)-[nextKeyboardButton]", options: nil, metrics: nil, views: views))
+		self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[nextKeyboardButton]-(13)-|", options: nil, metrics: nil, views: views))
 		
+		// Gestures
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: "didSwipeLeft:")
 		swipeLeft.direction = .Left
 		self.view.addGestureRecognizer(swipeLeft)
@@ -93,7 +89,6 @@ class KeyboardViewController: UIInputViewController {
 	func didSwipeLeft(sender: UIGestureRecognizer) {
 		let proxy = self.textDocumentProxy as UITextDocumentProxy
 		if let precedingContext = proxy.documentContextBeforeInput {
-			label.text = precedingContext
 			let numTimesToDelete = precedingContext.numberOfElementsToDeleteToDeleteLastWord()
 			for i in 0...numTimesToDelete {
 				proxy.deleteBackward()

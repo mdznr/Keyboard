@@ -16,6 +16,7 @@
 		C9496AEE193DB1080019E371 /* KeyboardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9496AED193DB1080019E371 /* KeyboardTests.m */; };
 		C95A10F7194E683D00158C31 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A10F6194E683D00158C31 /* KeyboardViewController.swift */; };
 		C95A10FA194E683D00158C31 /* mattzanchelli.Keyboard.KeyboardExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C95A10F2194E683D00158C31 /* mattzanchelli.Keyboard.KeyboardExtension.appex */; };
+		C9D18820194EBA62003739C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9D1881F194EBA62003739C1 /* Images.xcassets */; };
 		C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */; };
 		C9DEE71C194E7372005B6296 /* KeyboardViewController_Apperance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		C95A10F2194E683D00158C31 /* mattzanchelli.Keyboard.KeyboardExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = mattzanchelli.Keyboard.KeyboardExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C95A10F5194E683D00158C31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C95A10F6194E683D00158C31 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		C9D1881F194EBA62003739C1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Traits.swift; sourceTree = "<group>"; };
 		C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Apperance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +173,7 @@
 				C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */,
 				C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */,
 				C94849EF194E967300B0B0A2 /* StringExtensions.swift */,
+				C9D1881F194EBA62003739C1 /* Images.xcassets */,
 				C95A10F4194E683D00158C31 /* Supporting Files */,
 			);
 			path = KeyboardExtension;
@@ -304,6 +307,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9D18820194EBA62003739C1 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
