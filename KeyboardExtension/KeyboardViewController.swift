@@ -133,9 +133,9 @@ class KeyboardViewController: UIInputViewController {
 		}
 		
 		let row1HorizontalMetrics = [
-			"width": 22, // * 10
-			"outer": 5,  // *  2
-			"inter": 10  // *  9
+			"width": 32, // * 10
+			"outer": 0,  // *  2
+			"inter": 0   // *  9
 		]
 		row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[Q(width)]-(inter)-[W(width)]-(inter)-[E(width)]-(inter)-[R(width)]-(inter)-[T(width)]-(inter)-[Y(width)]-(inter)-[U(width)]-(inter)-[I(width)]-(inter)-[O(width)]-(inter)-[P(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row1HorizontalMetrics, views: row1Labels))
 		
