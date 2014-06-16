@@ -205,7 +205,10 @@ class KeyboardViewController: UIInputViewController {
 		
 		let press = UILongPressGestureRecognizer(target: self, action: "didPress:")
 		press.minimumPressDuration = 0
-//		self.view.addGestureRecognizer(press)
+//		self.inputView.addGestureRecognizer(press)
+		
+		let tap = UITapGestureRecognizer(target: self, action: "didTap:")
+		self.inputView.addGestureRecognizer(tap)
     }
 	
 	override func viewDidAppear(animated: Bool) {
@@ -245,6 +248,24 @@ class KeyboardViewController: UIInputViewController {
     }
 	
 	// MARK: Gestures
+	
+	func didTap(sender: UIGestureRecognizer) {
+		if sender.state == .Ended {
+			let point = sender.locationInView(sender.view)
+			NSLog("%@", NSStringFromCGPoint(point))
+			if let row = sender.view.hitTest(point, withEvent: nil) {
+				for subview: UIView in (row.subviews as UIView[]) {
+					let subviewPoint = sender.locationInView(subview)
+					if subview.pointInside(subviewPoint, withEvent: nil) {
+						if let key = subview as? KeyboardKey {
+							let proxy = self.textDocumentProxy as UITextDocumentProxy
+							proxy.insertText(key.letter)
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	func didPress(sender: UIGestureRecognizer) {
 		switch sender.state {
