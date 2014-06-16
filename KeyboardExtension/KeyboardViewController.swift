@@ -147,9 +147,9 @@ class KeyboardViewController: UIInputViewController {
 			row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
 		let row2HorizontalMetrics = [
-			"width": 22, // * 9
-			"outer": 13, // * 2
-			"inter": 12  // * 8
+			"width": 34, // * 9
+			"outer":  7, // * 2
+			"inter":  0  // * 8
 		]
 		row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[A(width)]-(inter)-[S(width)]-(inter)-[D(width)]-(inter)-[F(width)]-(inter)-[G(width)]-(inter)-[H(width)]-(inter)-[J(width)]-(inter)-[K(width)]-(inter)-[L(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row2HorizontalMetrics, views: row2Labels))
 		
@@ -169,13 +169,15 @@ class KeyboardViewController: UIInputViewController {
 			row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
 		let row3HorizontalMetrics = [
-			"outer": 6,        // * 2
-			"endKeyWidth": 30, // * 2
-			"mainKeyOuter": 8, // * 2
-			"width": 22,       // * 7
-			"inter": 13        // * 6
+			"left": 6,            // * 1
+			"right": 5,           // * 1
+			"shiftKeyWidth": 32,  // * 1
+			"deleteKeyWidth": 32, // * 1
+			"mainKeyOuter": 0,    // * 2
+			"width": 35,          // * 7
+			"inter":  0           // * 6
 		]
-		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[shiftButton(endKeyWidth)]-(mainKeyOuter)-[Z(width)]-(inter)-[X(width)]-(inter)-[C(width)]-(inter)-[V(width)]-(inter)-[B(width)]-(inter)-[N(width)]-(inter)-[M(width)]-(mainKeyOuter)-[deleteButton(endKeyWidth)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row3HorizontalMetrics, views: row3Labels))
+		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(left)-[shiftButton(shiftKeyWidth)]-(mainKeyOuter)-[Z(width)]-(inter)-[X(width)]-(inter)-[C(width)]-(inter)-[V(width)]-(inter)-[B(width)]-(inter)-[N(width)]-(inter)-[M(width)]-(mainKeyOuter)-[deleteButton(deleteKeyWidth)]-(right)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row3HorizontalMetrics, views: row3Labels))
 		
 		// Row 4
 		row4.addSubview(symbolKeyboardButton)
