@@ -15,18 +15,21 @@ class KeyboardViewController: UIInputViewController {
 	
 	let nextKeyboardButton = UIButton.buttonWithType(.System) as UIButton
 	
-	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
-	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
-	let row3Letters = ["Z","X","C","V","B","N","M"]
-	
-	var row1Labels = Dictionary<String, KeyboardKey>()
-	var row2Labels = Dictionary<String, KeyboardKey>()
-	var row3Labels = Dictionary<String, KeyboardKey>()
-	
 	let row1 = KeyboardViewController.createRow()
 	let row2 = KeyboardViewController.createRow()
 	let row3 = KeyboardViewController.createRow()
 	let row4 = KeyboardViewController.createRow()
+	
+	var row1Labels = Dictionary<String, UIView>()
+	var row2Labels = Dictionary<String, UIView>()
+	var row3Labels = Dictionary<String, UIView>()
+	
+	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
+	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
+	let row3Letters = ["Z","X","C","V","B","N","M"]
+	
+	let shiftButton = UIButton()
+	let deleteButton = UIButton()
 	
 	class func createRow() -> UIView {
 		let view = UIView()
@@ -80,7 +83,7 @@ class KeyboardViewController: UIInputViewController {
 			let label = KeyboardKey(letter: letter)
 			row1Labels.updateValue(label, forKey: letter)
 			row1.addSubview(label)
-			row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
+			row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
 		
 		let row1HorizontalMetrics = [
@@ -95,7 +98,7 @@ class KeyboardViewController: UIInputViewController {
 			let label = KeyboardKey(letter: letter)
 			row2Labels.updateValue(label, forKey: letter)
 			row2.addSubview(label)
-			row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
+			row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
 		let row2HorizontalMetrics = [
 			"width": 22, // * 9
@@ -105,18 +108,34 @@ class KeyboardViewController: UIInputViewController {
 		row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[A(width)]-(inter)-[S(width)]-(inter)-[D(width)]-(inter)-[F(width)]-(inter)-[G(width)]-(inter)-[H(width)]-(inter)-[J(width)]-(inter)-[K(width)]-(inter)-[L(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row2HorizontalMetrics, views: row2Labels))
 		
 		// Row 3
+		shiftButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+		shiftButton.setImage(UIImage(named: "Shift Disabled"), forState: .Normal)
+		shiftButton.setImage(UIImage(named: "Shift Enabled"), forState: .Highlighted)
+		shiftButton.setImage(UIImage(named: "Caps Lock"), forState: .Selected)
+		row3.addSubview(shiftButton)
+		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[shiftButton(>=height)]|", options: nil, metrics: ["height": 30], views: ["shiftButton": shiftButton]))
+		
+		deleteButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+		deleteButton.setImage(UIImage(named: "Delete"), forState: .Normal)
+		row3.addSubview(deleteButton)
+		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[deleteButton(>=height)]|", options: nil, metrics: ["height": 30], views: ["deleteButton": deleteButton]))
+		
 		for letter in row3Letters {
 			let label = KeyboardKey(letter: letter)
 			row3Labels.updateValue(label, forKey: letter)
 			row3.addSubview(label)
-			row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
+			row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
 		let row3HorizontalMetrics = [
-			"width": 22, // * 7
-			"outer": 44, // * 2
-			"inter": 13  // * 6
+			"outer": 6,        // * 2
+			"endKeyWidth": 30, // * 2
+			"mainKeyOuter": 8, // * 2
+			"width": 22,       // * 7
+			"inter": 13        // * 6
 		]
-		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[Z(width)]-(inter)-[X(width)]-(inter)-[C(width)]-(inter)-[V(width)]-(inter)-[B(width)]-(inter)-[N(width)]-(inter)-[M(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row3HorizontalMetrics, views: row3Labels))
+		row3Labels.updateValue(shiftButton, forKey: "shiftButton")
+		row3Labels.updateValue(deleteButton, forKey: "deleteButton")
+		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[shiftButton(endKeyWidth)]-(mainKeyOuter)-[Z(width)]-(inter)-[X(width)]-(inter)-[C(width)]-(inter)-[V(width)]-(inter)-[B(width)]-(inter)-[N(width)]-(inter)-[M(width)]-(mainKeyOuter)-[deleteButton(endKeyWidth)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row3HorizontalMetrics, views: row3Labels))
 		
 		// Next keyboard button
 		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -174,6 +193,7 @@ class KeyboardViewController: UIInputViewController {
 		self.view.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
 		KeyboardKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
 		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
+		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
     }
 	
 	// MARK: Gestures
