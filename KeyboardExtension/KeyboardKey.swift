@@ -35,8 +35,8 @@ class KeyboardKey: UILabel {
 		
 		self.setTranslatesAutoresizingMaskIntoConstraints(false)
 		self.textAlignment = .Center
-		self.font = KeyboardViewController.keyboardLetterFont()
-		self.textColor = KeyboardViewController.primaryButtonColorForAppearance(.Default)
+		self.font = KeyboardAppearance.keyboardLetterFont()
+		self.textColor = KeyboardAppearance.primaryButtonColorForAppearance(.Default)
 	}
 
 }

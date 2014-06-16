@@ -17,7 +17,7 @@
 		C95A10FA194E683D00158C31 /* mattzanchelli.Keyboard.KeyboardExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C95A10F2194E683D00158C31 /* mattzanchelli.Keyboard.KeyboardExtension.appex */; };
 		C9D18820194EBA62003739C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9D1881F194EBA62003739C1 /* Images.xcassets */; };
 		C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */; };
-		C9DEE71C194E7372005B6296 /* KeyboardViewController_Apperance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */; };
+		C9DEE71C194E7372005B6296 /* KeyboardAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE71B194E7372005B6296 /* KeyboardAppearance.swift */; };
 		C9DF2810194EE3F500BDFCB1 /* KeyboardKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DF280F194EE3F500BDFCB1 /* KeyboardKey.swift */; };
 		C9DF2812194EECA000BDFCB1 /* KeyboardDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DF2811194EECA000BDFCB1 /* KeyboardDivider.swift */; };
 		C9E39E49194EDC3B00FB7C8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E39E48194EDC3B00FB7C8A /* ViewController.swift */; };
@@ -78,7 +78,7 @@
 		C95A10F6194E683D00158C31 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		C9D1881F194EBA62003739C1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Traits.swift; sourceTree = "<group>"; };
-		C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Apperance.swift; sourceTree = "<group>"; };
+		C9DEE71B194E7372005B6296 /* KeyboardAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAppearance.swift; sourceTree = "<group>"; };
 		C9DF280F194EE3F500BDFCB1 /* KeyboardKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardKey.swift; sourceTree = "<group>"; };
 		C9DF2811194EECA000BDFCB1 /* KeyboardDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardDivider.swift; sourceTree = "<group>"; };
 		C9E39E47194EDC3B00FB7C8A /* Keyboard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Keyboard-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 				C9DF280F194EE3F500BDFCB1 /* KeyboardKey.swift */,
 				C9DF2811194EECA000BDFCB1 /* KeyboardDivider.swift */,
 				C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */,
-				C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */,
+				C9DEE71B194E7372005B6296 /* KeyboardAppearance.swift */,
 				C94849EF194E967300B0B0A2 /* StringExtensions.swift */,
 				C9D1881F194EBA62003739C1 /* Images.xcassets */,
 				C95A10F4194E683D00158C31 /* Supporting Files */,
@@ -347,7 +347,7 @@
 				C9DF2810194EE3F500BDFCB1 /* KeyboardKey.swift in Sources */,
 				C95A10F7194E683D00158C31 /* KeyboardViewController.swift in Sources */,
 				C9DF2812194EECA000BDFCB1 /* KeyboardDivider.swift in Sources */,
-				C9DEE71C194E7372005B6296 /* KeyboardViewController_Apperance.swift in Sources */,
+				C9DEE71C194E7372005B6296 /* KeyboardAppearance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

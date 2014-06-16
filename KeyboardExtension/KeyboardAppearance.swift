@@ -1,5 +1,5 @@
 //
-//  KeyboardViewController_Apperance.swift
+//  KeyboardAppearance.swift
 //  Keyboard
 //
 //  Created by Matt Zanchelli on 6/15/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension KeyboardViewController {
+class KeyboardAppearance {
 	
 	class func keyboardLetterFont() -> UIFont {
 		return UIFont.systemFontOfSize(24)

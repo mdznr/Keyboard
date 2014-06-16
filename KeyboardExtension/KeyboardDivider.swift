@@ -18,7 +18,7 @@ class KeyboardDivider: UIView {
         super.init(frame: frame)
         // Initialization code
 		self.setTranslatesAutoresizingMaskIntoConstraints(false)
-		self.backgroundColor = KeyboardViewController.dividerColorForAppearance(UIKeyboardAppearance.Default)
+		self.backgroundColor = KeyboardAppearance.dividerColorForAppearance(UIKeyboardAppearance.Default)
     }
 
 }

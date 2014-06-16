@@ -167,9 +167,9 @@ class KeyboardViewController: UIInputViewController {
 		
 		// Change visual appearance.
 		let appearance = self.keyboardAppearance()
-		self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(appearance)
-		KeyboardKey.appearance().textColor = KeyboardViewController.primaryButtonColorForAppearance(appearance)
-		KeyboardDivider.appearance().backgroundColor = KeyboardViewController.dividerColorForAppearance(appearance)
+		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
+		KeyboardKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
     }
 	
 	// MARK: Gestures
