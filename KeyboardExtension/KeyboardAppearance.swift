@@ -18,7 +18,9 @@ class KeyboardAppearance {
 	class func keyboardBackgroundColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
-			return UIColor.blackColor()
+			return UIColor(white: 0.00, alpha: 1) // Black
+//			return UIColor(white: 0.30, alpha: 1) // iOS Gray
+//			return UIColor(white: 0.42, alpha: 1) // Tweetbot Gray
 		case .Default, .Light:
 			return UIColor(hue: 0.67, saturation: 0, brightness: 0.97, alpha: 1)
 		}
@@ -28,7 +30,7 @@ class KeyboardAppearance {
 	class func primaryButtonColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
-			return UIColor(white: 0.8, alpha: 1)
+			return UIColor(white: 0.90, alpha: 1)
 		case .Default, .Light:
 			return UIColor(white: 0.32, alpha: 1)
 		}
@@ -38,7 +40,7 @@ class KeyboardAppearance {
 	class func secondaryButtonColorForApperance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
-			return UIColor(white: 1, alpha: 0.33)
+			return UIColor(white: 0.51, alpha: 1)
 		case .Default, .Light:
 			return UIColor(hue: 0.67, saturation: 0.02, brightness: 0.8, alpha: 1)
 		}
@@ -58,7 +60,7 @@ class KeyboardAppearance {
 	class func dividerColorForAppearance(appearance: UIKeyboardAppearance) -> UIColor {
 		switch appearance {
 		case .Dark:
-			return UIColor(white: 1, alpha: 0.10)
+			return UIColor(white: 0.30, alpha: 1)
 		case .Default, .Light:
 			return UIColor(hue: 0.67, saturation: 0.02, brightness: 0.8, alpha: 1)
 		}
