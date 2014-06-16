@@ -92,12 +92,9 @@ class KeyboardViewController: UIInputViewController {
 	/// Did a left swipe gesture. Delete until previous chunk of whitespace.
 	func didSwipeLeft(sender: UIGestureRecognizer) {
 		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		let precedingContext = proxy.documentContextBeforeInput
-		if !precedingContext {
-			return;
-		}
-		label.text = precedingContext
-		if let numTimesToDelete = precedingContext?.numberOfElementsToDeleteToDeleteLastWord() {
+		if let precedingContext = proxy.documentContextBeforeInput {
+			label.text = precedingContext
+			let numTimesToDelete = precedingContext.numberOfElementsToDeleteToDeleteLastWord()
 			for i in 0...numTimesToDelete {
 				proxy.deleteBackward()
 			}
