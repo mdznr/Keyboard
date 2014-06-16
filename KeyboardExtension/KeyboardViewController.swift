@@ -14,6 +14,35 @@ let APPEAR_ANIMATION_DURATION = 0.3
 class KeyboardViewController: UIInputViewController {
 
 	@IBOutlet var nextKeyboardButton: UIButton
+	
+	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
+	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
+	let row3Letters = ["Z","X","C","V","B","N","M"]
+	
+	var row1Labels = Dictionary<String, UILabel>()
+	var row2Labels = Dictionary<String, UILabel>()
+	var row3Labels = Dictionary<String, UILabel>()
+	
+	let row1 = KeyboardViewController.createRow()
+	let row2 = KeyboardViewController.createRow()
+	let row3 = KeyboardViewController.createRow()
+	let row4 = KeyboardViewController.createRow()
+	
+	class func createRow() -> UIView {
+		let view = UIView()
+		view.setTranslatesAutoresizingMaskIntoConstraints(false)
+		
+		let divider = UIView()
+		divider.setTranslatesAutoresizingMaskIntoConstraints(false)
+		divider.backgroundColor = KeyboardViewController.dividerColorForAppearance(UIKeyboardAppearance.Default)
+		view.addSubview(divider)
+		
+		let views = ["divider": divider]
+		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[divider]|", options: nil, metrics: nil, views: views))
+		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[divider(0.5)]|", options: nil, metrics: nil, views: views))
+		
+		return view
+	}
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -27,20 +56,99 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-        // Perform custom UI setup here
+		// Rows
+		let rows = [
+			"row1": row1,
+			"row2": row2,
+			"row3": row3,
+			"row4": row4
+		]
+		for (rowName, row) in rows {
+			self.view.addSubview(row)
+		}
+		let row1Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row1]|", options: nil, metrics: nil, views: rows)
+		self.view.addConstraints(row1Constraints)
+		let row2Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row2]|", options: nil, metrics: nil, views: rows)
+		self.view.addConstraints(row2Constraints)
+		let row3Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row3]|", options: nil, metrics: nil, views: rows)
+		self.view.addConstraints(row3Constraints)
+		let row4Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row4]|", options: nil, metrics: nil, views: rows)
+		self.view.addConstraints(row4Constraints)
+		let rowConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[row1(59)][row2(55)][row3(54)][row4(48)]|", options: nil, metrics: nil, views: rows)
+		self.view.addConstraints(rowConstraints)
+		
+		// Row 1
+		for letter in row1Letters {
+			let label = UILabel()
+			row1Labels.updateValue(label, forKey: letter)
+			label.setTranslatesAutoresizingMaskIntoConstraints(false)
+			label.text = letter
+			label.font = KeyboardViewController.keyboardLetterFont()
+			label.textColor = KeyboardViewController.primaryButtonColorForAppearance(.Default)
+			label.textAlignment = .Center
+			row1.addSubview(label)
+			row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
+		}
+		
+		let row1HorizontalMetrics = [
+			"width": 22, // * 10
+			"outer": 5,  // *  2
+			"inter": 10  // *  9
+		]
+		row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[Q(width)]-(inter)-[W(width)]-(inter)-[E(width)]-(inter)-[R(width)]-(inter)-[T(width)]-(inter)-[Y(width)]-(inter)-[U(width)]-(inter)-[I(width)]-(inter)-[O(width)]-(inter)-[P(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row1HorizontalMetrics, views: row1Labels))
+		
+		// Row 2
+		for letter in row2Letters {
+			let label = UILabel()
+			row2Labels.updateValue(label, forKey: letter)
+			label.setTranslatesAutoresizingMaskIntoConstraints(false)
+			label.text = letter
+			label.font = KeyboardViewController.keyboardLetterFont()
+			label.textColor = KeyboardViewController.primaryButtonColorForAppearance(.Default)
+			label.textAlignment = .Center
+			row2.addSubview(label)
+			row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
+		}
+		let row2HorizontalMetrics = [
+			"width": 22, // * 9
+			"outer": 13, // * 2
+			"inter": 12  // * 8
+		]
+		row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[A(width)]-(inter)-[S(width)]-(inter)-[D(width)]-(inter)-[F(width)]-(inter)-[G(width)]-(inter)-[H(width)]-(inter)-[J(width)]-(inter)-[K(width)]-(inter)-[L(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row2HorizontalMetrics, views: row2Labels))
+		
+		// Row 3
+		for letter in row3Letters {
+			let label = UILabel()
+			row3Labels.updateValue(label, forKey: letter)
+			label.setTranslatesAutoresizingMaskIntoConstraints(false)
+			label.text = letter
+			label.font = KeyboardViewController.keyboardLetterFont()
+			label.textColor = KeyboardViewController.primaryButtonColorForAppearance(.Default)
+			label.textAlignment = .Center
+			row3.addSubview(label)
+			row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
+		}
+		let row3HorizontalMetrics = [
+			"width": 22, // * 7
+			"outer": 44, // * 2
+			"inter": 13  // * 6
+		]
+		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[Z(width)]-(inter)-[X(width)]-(inter)-[C(width)]-(inter)-[V(width)]-(inter)-[B(width)]-(inter)-[N(width)]-(inter)-[M(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row3HorizontalMetrics, views: row3Labels))
+		
+		// Next keyboard button
 		self.nextKeyboardButton = UIButton.buttonWithType(.System) as UIButton
+		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(false)
 		nextKeyboardButton.setImage(UIImage(named: "Globe"), forState: .Normal)
 		nextKeyboardButton.sizeToFit()
-		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+		row4.addSubview(nextKeyboardButton)
         nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
-        self.view.addSubview(nextKeyboardButton)
 		
 		// Auto layout
 		let views = [
 			"nextKeyboardButton": nextKeyboardButton
 		]
-		self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(54)-[nextKeyboardButton]", options: nil, metrics: nil, views: views))
-		self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[nextKeyboardButton]-(13)-|", options: nil, metrics: nil, views: views))
+		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(54)-[nextKeyboardButton]", options: nil, metrics: nil, views: views))
+		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[nextKeyboardButton]-(13)-|", options: nil, metrics: nil, views: views))
 		
 		// Gestures
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: "didSwipeLeft:")
@@ -54,7 +162,7 @@ class KeyboardViewController: UIInputViewController {
 			delay: 0,
 			options: .BeginFromCurrentState | .CurveEaseInOut | .AllowAnimatedContent | .AllowUserInteraction,
 			animations: {
-				self.inputView.backgroundColor = self.keyboardBackgroundColorForAppearance(.Default)
+				self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(.Default)
 			},
 			completion: nil)
 	}
