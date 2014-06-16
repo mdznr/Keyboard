@@ -19,6 +19,7 @@
 		C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */; };
 		C9DEE71C194E7372005B6296 /* KeyboardViewController_Apperance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */; };
 		C9DF2810194EE3F500BDFCB1 /* KeyboardKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DF280F194EE3F500BDFCB1 /* KeyboardKey.swift */; };
+		C9DF2812194EECA000BDFCB1 /* KeyboardDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DF2811194EECA000BDFCB1 /* KeyboardDivider.swift */; };
 		C9E39E49194EDC3B00FB7C8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E39E48194EDC3B00FB7C8A /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Traits.swift; sourceTree = "<group>"; };
 		C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Apperance.swift; sourceTree = "<group>"; };
 		C9DF280F194EE3F500BDFCB1 /* KeyboardKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardKey.swift; sourceTree = "<group>"; };
+		C9DF2811194EECA000BDFCB1 /* KeyboardDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardDivider.swift; sourceTree = "<group>"; };
 		C9E39E47194EDC3B00FB7C8A /* Keyboard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Keyboard-Bridging-Header.h"; sourceTree = "<group>"; };
 		C9E39E48194EDC3B00FB7C8A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,6 +175,7 @@
 			children = (
 				C95A10F6194E683D00158C31 /* KeyboardViewController.swift */,
 				C9DF280F194EE3F500BDFCB1 /* KeyboardKey.swift */,
+				C9DF2811194EECA000BDFCB1 /* KeyboardDivider.swift */,
 				C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */,
 				C9DEE71B194E7372005B6296 /* KeyboardViewController_Apperance.swift */,
 				C94849EF194E967300B0B0A2 /* StringExtensions.swift */,
@@ -343,6 +346,7 @@
 				C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */,
 				C9DF2810194EE3F500BDFCB1 /* KeyboardKey.swift in Sources */,
 				C95A10F7194E683D00158C31 /* KeyboardViewController.swift in Sources */,
+				C9DF2812194EECA000BDFCB1 /* KeyboardDivider.swift in Sources */,
 				C9DEE71C194E7372005B6296 /* KeyboardViewController_Apperance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

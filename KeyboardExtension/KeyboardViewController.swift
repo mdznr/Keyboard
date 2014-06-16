@@ -32,9 +32,7 @@ class KeyboardViewController: UIInputViewController {
 		let view = UIView()
 		view.setTranslatesAutoresizingMaskIntoConstraints(false)
 		
-		let divider = UIView()
-		divider.setTranslatesAutoresizingMaskIntoConstraints(false)
-		divider.backgroundColor = KeyboardViewController.dividerColorForAppearance(UIKeyboardAppearance.Default)
+		let divider = KeyboardDivider()
 		view.addSubview(divider)
 		
 		let views = ["divider": divider]
@@ -168,8 +166,10 @@ class KeyboardViewController: UIInputViewController {
 		NSLog("Text Did Change!")
 		
 		// Change visual appearance.
-		self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(self.keyboardAppearance())
-		KeyboardKey.appearance().textColor = KeyboardViewController.primaryButtonColorForAppearance(self.keyboardAppearance())
+		let appearance = self.keyboardAppearance()
+		self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(appearance)
+		KeyboardKey.appearance().textColor = KeyboardViewController.primaryButtonColorForAppearance(appearance)
+		KeyboardDivider.appearance().backgroundColor = KeyboardViewController.dividerColorForAppearance(appearance)
     }
 	
 	// MARK: Gestures
