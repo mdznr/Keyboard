@@ -12,16 +12,16 @@ import UIKit
 let APPEAR_ANIMATION_DURATION = 0.3
 
 class KeyboardViewController: UIInputViewController {
-
-	@IBOutlet var nextKeyboardButton: UIButton
+	
+	let nextKeyboardButton = UIButton.buttonWithType(.System) as UIButton
 	
 	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
 	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
 	let row3Letters = ["Z","X","C","V","B","N","M"]
 	
-	var row1Labels = Dictionary<String, UILabel>()
-	var row2Labels = Dictionary<String, UILabel>()
-	var row3Labels = Dictionary<String, UILabel>()
+	var row1Labels = Dictionary<String, KeyboardKey>()
+	var row2Labels = Dictionary<String, KeyboardKey>()
+	var row3Labels = Dictionary<String, KeyboardKey>()
 	
 	let row1 = KeyboardViewController.createRow()
 	let row2 = KeyboardViewController.createRow()
@@ -64,28 +64,23 @@ class KeyboardViewController: UIInputViewController {
 			"row4": row4
 		]
 		for (rowName, row) in rows {
-			self.view.addSubview(row)
+			self.inputView.addSubview(row)
 		}
 		let row1Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row1]|", options: nil, metrics: nil, views: rows)
-		self.view.addConstraints(row1Constraints)
+		self.inputView.addConstraints(row1Constraints)
 		let row2Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row2]|", options: nil, metrics: nil, views: rows)
-		self.view.addConstraints(row2Constraints)
+		self.inputView.addConstraints(row2Constraints)
 		let row3Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row3]|", options: nil, metrics: nil, views: rows)
-		self.view.addConstraints(row3Constraints)
+		self.inputView.addConstraints(row3Constraints)
 		let row4Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row4]|", options: nil, metrics: nil, views: rows)
-		self.view.addConstraints(row4Constraints)
+		self.inputView.addConstraints(row4Constraints)
 		let rowConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[row1(59)][row2(55)][row3(54)][row4(48)]|", options: nil, metrics: nil, views: rows)
-		self.view.addConstraints(rowConstraints)
+		self.inputView.addConstraints(rowConstraints)
 		
 		// Row 1
 		for letter in row1Letters {
-			let label = UILabel()
+			let label = KeyboardKey(letter: letter)
 			row1Labels.updateValue(label, forKey: letter)
-			label.setTranslatesAutoresizingMaskIntoConstraints(false)
-			label.text = letter
-			label.font = KeyboardViewController.keyboardLetterFont()
-			label.textColor = KeyboardViewController.primaryButtonColorForAppearance(.Default)
-			label.textAlignment = .Center
 			row1.addSubview(label)
 			row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
@@ -99,13 +94,8 @@ class KeyboardViewController: UIInputViewController {
 		
 		// Row 2
 		for letter in row2Letters {
-			let label = UILabel()
+			let label = KeyboardKey(letter: letter)
 			row2Labels.updateValue(label, forKey: letter)
-			label.setTranslatesAutoresizingMaskIntoConstraints(false)
-			label.text = letter
-			label.font = KeyboardViewController.keyboardLetterFont()
-			label.textColor = KeyboardViewController.primaryButtonColorForAppearance(.Default)
-			label.textAlignment = .Center
 			row2.addSubview(label)
 			row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
@@ -118,13 +108,8 @@ class KeyboardViewController: UIInputViewController {
 		
 		// Row 3
 		for letter in row3Letters {
-			let label = UILabel()
+			let label = KeyboardKey(letter: letter)
 			row3Labels.updateValue(label, forKey: letter)
-			label.setTranslatesAutoresizingMaskIntoConstraints(false)
-			label.text = letter
-			label.font = KeyboardViewController.keyboardLetterFont()
-			label.textColor = KeyboardViewController.primaryButtonColorForAppearance(.Default)
-			label.textAlignment = .Center
 			row3.addSubview(label)
 			row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[label(height)]-|", options: nil, metrics: ["height": 19], views: ["label": label]))
 		}
@@ -136,7 +121,6 @@ class KeyboardViewController: UIInputViewController {
 		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[Z(width)]-(inter)-[X(width)]-(inter)-[C(width)]-(inter)-[V(width)]-(inter)-[B(width)]-(inter)-[N(width)]-(inter)-[M(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row3HorizontalMetrics, views: row3Labels))
 		
 		// Next keyboard button
-		self.nextKeyboardButton = UIButton.buttonWithType(.System) as UIButton
 		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(false)
 		nextKeyboardButton.setImage(UIImage(named: "Globe"), forState: .Normal)
 		nextKeyboardButton.sizeToFit()
@@ -153,18 +137,20 @@ class KeyboardViewController: UIInputViewController {
 		// Gestures
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: "didSwipeLeft:")
 		swipeLeft.direction = .Left
-		self.view.addGestureRecognizer(swipeLeft)
+		self.inputView.addGestureRecognizer(swipeLeft)
     }
 	
 	override func viewDidAppear(animated: Bool) {
+		/*
 		// Set background color.
 		UIView.animateWithDuration(APPEAR_ANIMATION_DURATION,
 			delay: 0,
 			options: .BeginFromCurrentState | .CurveEaseInOut | .AllowAnimatedContent | .AllowUserInteraction,
 			animations: {
-				self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(.Default)
+				self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(self.keyboardAppearance())
 			},
 			completion: nil)
+		*/
 	}
 
     override func didReceiveMemoryWarning() {
@@ -181,13 +167,9 @@ class KeyboardViewController: UIInputViewController {
 		
 		NSLog("Text Did Change!")
 		
-//		var textColor: UIColor
-//		if self.keyboardAppearance == UIKeyboardAppearance.Dark {
-//			textColor = UIColor.whiteColor()
-//		} else {
-//			textColor = UIColor.blackColor()
-//		}
-//		self.nextKeyboardButton.setTitleColor(textColor, forState: .Normal)
+		// Change visual appearance.
+		self.inputView.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(self.keyboardAppearance())
+		KeyboardKey.appearance().textColor = KeyboardViewController.primaryButtonColorForAppearance(self.keyboardAppearance())
     }
 	
 	// MARK: Gestures
