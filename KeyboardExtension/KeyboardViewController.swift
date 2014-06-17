@@ -233,6 +233,10 @@ class KeyboardViewController: UIInputViewController {
 		
 		let tap = UITapGestureRecognizer(target: self, action: "didTap:")
 		self.inputView.addGestureRecognizer(tap)
+		
+		let doubleTap = UITapGestureRecognizer(target: self, action: "doubleTapped:")
+		doubleTap.numberOfTapsRequired = 2
+		self.shiftKey.addGestureRecognizer(doubleTap)
     }
 	
 	override func viewDidAppear(animated: Bool) {
@@ -387,6 +391,14 @@ class KeyboardViewController: UIInputViewController {
 			self.shiftState = .Disabled
 		case .Locked:
 			self.shiftState = .Disabled
+		}
+	}
+	
+	func doubleTapped(sender: UITapGestureRecognizer) {
+		if sender.state == .Ended {
+			if sender.view == self.shiftKey {
+				self.shiftState = .Locked
+			}
 		}
 	}
 }
