@@ -227,6 +227,15 @@ class KeyboardViewController: UIInputViewController {
 		swipeRight.direction = .Right
 		self.inputView.addGestureRecognizer(swipeRight)
 		
+		let swipeDown = UISwipeGestureRecognizer(target: self, action: "didSwipeDown:")
+		swipeDown.direction = .Down
+		self.inputView.addGestureRecognizer(swipeDown)
+		
+		let swipeDownWithTwoFingers = UISwipeGestureRecognizer(target: self, action: "didSwipeDownWithTwoFingers:")
+		swipeDownWithTwoFingers.direction = .Down
+		swipeDownWithTwoFingers.numberOfTouchesRequired = 2
+		self.inputView.addGestureRecognizer(swipeDownWithTwoFingers)
+		
 		let press = UILongPressGestureRecognizer(target: self, action: "didPress:")
 		press.minimumPressDuration = 0
 //		self.inputView.addGestureRecognizer(press)
@@ -358,17 +367,31 @@ class KeyboardViewController: UIInputViewController {
 	}
 	
 	/// TODO: Fix this once `documentContextBeforeInput` stops always returning nil.
-	/// Did a left swipe gesture. Delete until previous chunk of whitespace.
+	/// Did a swipe left gesture. Delete until previous chunk of whitespace.
 	func didSwipeLeft(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
 			self.deleteWord()
 		}
 	}
 	
-	/// Did a right swipe gesture. End the sentence.
+	/// Did a swipe right gesture. End the sentence.
 	func didSwipeRight(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
 			endSentence()
+		}
+	}
+	
+	/// Did a swipe down gesture. Add a newline character.
+	func didSwipeDown(sender: UIGestureRecognizer) {
+		if sender.state == .Ended {
+			self.createNewline()
+		}
+	}
+	
+	/// Did a swipe down gesture with two fingers. Dismiss the keyboard.
+	func didSwipeDownWithTwoFingers(sender: UIGestureRecognizer) {
+		if sender.state == .Ended {
+			self.dismissKeyboard()
 		}
 	}
 	
@@ -376,6 +399,12 @@ class KeyboardViewController: UIInputViewController {
 	/// TODO: Insert newline (if possible), if at the start of a sentence. (double-swipe)
 	func endSentence() {
 		self.typeString(". ")
+		self.shiftState.enableIfDisabled()
+	}
+	
+	/// Create a new line.
+	func createNewline() {
+		self.typeString("\n")
 		self.shiftState.enableIfDisabled()
 	}
 	
