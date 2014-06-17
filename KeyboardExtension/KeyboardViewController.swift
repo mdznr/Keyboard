@@ -44,20 +44,11 @@ class KeyboardViewController: UIInputViewController {
 	
 	var shiftState: KeyboardShiftState = .Disabled {
 		didSet {
-			
+			self.shiftKey.shiftState = self.shiftState
 		}
 	}
 
-	let shiftButton : UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.setImage(UIImage(named: "Shift Disabled"), forState: .Normal)
-		button.setImage(UIImage(named: "Shift Enabled"), forState: .Highlighted)
-		button.setImage(UIImage(named: "Caps Lock"), forState: .Selected)
-		
-		return button
-	}()
+	let shiftKey = ShiftKey()
 	let deleteButton : UIButton = {
 		let button = UIButton.buttonWithType(.System) as UIButton
 		button.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -171,10 +162,10 @@ class KeyboardViewController: UIInputViewController {
 		row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[A(width)]-(inter)-[S(width)]-(inter)-[D(width)]-(inter)-[F(width)]-(inter)-[G(width)]-(inter)-[H(width)]-(inter)-[J(width)]-(inter)-[K(width)]-(inter)-[L(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row2HorizontalMetrics, views: row2Labels))
 		
 		// Row 3
-		shiftButton.addTarget(self, action: "shiftKeyPressed:", forControlEvents: .TouchUpInside)
-		row3Labels.updateValue(shiftButton, forKey: "shiftButton")
-		row3.addSubview(shiftButton)
-		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[shiftButton(>=height)]|", options: nil, metrics: ["height": 30], views: ["shiftButton": shiftButton]))
+		shiftKey.addTarget(self, action: "shiftKeyPressed:", forControlEvents: .TouchUpInside)
+		row3Labels.updateValue(shiftKey, forKey: "shiftButton")
+		row3.addSubview(shiftKey)
+		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[shiftButton(>=height)]|", options: nil, metrics: ["height": 30], views: ["shiftButton": shiftKey]))
 		
 		deleteButton.addTarget(self, action: "deleteKeyPressed:", forControlEvents: .TouchUpInside)
 		row3Labels.updateValue(deleteButton, forKey: "deleteButton")
