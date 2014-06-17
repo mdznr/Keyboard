@@ -19,6 +19,12 @@ enum KeyboardShiftState {
 	case Enabled
 	/// Shift is locked-- continue to type capitals.
 	case Locked
+	
+	mutating func enableIfDisabled() {
+		if self == .Disabled {
+			self = .Enabled
+		}
+	}
 }
 
 class KeyboardViewController: UIInputViewController {
@@ -218,6 +224,10 @@ class KeyboardViewController: UIInputViewController {
 		swipeLeft.direction = .Left
 		self.inputView.addGestureRecognizer(swipeLeft)
 		
+		let swipeRight = UISwipeGestureRecognizer(target: self, action: "didSwipeRight:")
+		swipeRight.direction = .Right
+		self.inputView.addGestureRecognizer(swipeRight)
+		
 		let press = UILongPressGestureRecognizer(target: self, action: "didPress:")
 		press.minimumPressDuration = 0
 //		self.inputView.addGestureRecognizer(press)
@@ -262,19 +272,19 @@ class KeyboardViewController: UIInputViewController {
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
     }
 	
-	func casedLetterForLetter(letter: String) -> String {
+	func appropriatelyCasedString(string: String) -> String {
 		switch self.shiftState {
 			case .Locked, .Enabled:
-				return letter.uppercaseString
+				return string.uppercaseString
 			case .Disabled:
-				return letter.lowercaseString
+				return string.lowercaseString
 		}
 	}
 	
-	func typeLetter(letter: String) {
+	func typeString(string: String) {
 		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		let casedLetter = casedLetterForLetter(letter)
-		proxy.insertText(casedLetter)
+		let casedString = appropriatelyCasedString(string)
+		proxy.insertText(casedString)
 		
 		switch self.shiftState {
 			case .Locked:
@@ -289,6 +299,8 @@ class KeyboardViewController: UIInputViewController {
 	func deleteCharacter() {
 		let proxy = self.textDocumentProxy as UITextDocumentProxy
 		proxy.deleteBackward()
+		
+		// TODO: Check if the character was capitalized, then set the shift state accordingly.
 	}
 	
 	func deleteWord() {
@@ -309,9 +321,9 @@ class KeyboardViewController: UIInputViewController {
 			let loc = sender.locationInView(view)
 			let subview = view.hitTest(loc, withEvent: nil)
 			if let subview = subview as? KeyboardKey {
-				typeLetter(subview.letter)
+				typeString(subview.letter)
 			} else if let subview = subview as? Spacebar {
-				typeLetter(" ")
+				typeString(" ")
 			}
 		}
 	}
@@ -334,7 +346,17 @@ class KeyboardViewController: UIInputViewController {
 	/// TODO: Fix this once `documentContextBeforeInput` stops always returning nil.
 	/// Did a left swipe gesture. Delete until previous chunk of whitespace.
 	func didSwipeLeft(sender: UIGestureRecognizer) {
-		self.deleteWord()
+		if sender.state == .Ended {
+			self.deleteWord()
+		}
+	}
+	
+	/// Did a right swipe gesture. Add period and a space character.
+	func didSwipeRight(sender: UIGestureRecognizer) {
+		if sender.state == .Ended {
+			self.typeString(". ")
+			self.shiftState.enableIfDisabled()
+		}
 	}
 	
 	func deleteKeyPressed(sender: UIButton) {
