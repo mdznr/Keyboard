@@ -87,6 +87,7 @@ class KeyboardViewController: UIInputViewController {
 		let button = UIButton.buttonWithType(.System) as UIButton
 		button.setTranslatesAutoresizingMaskIntoConstraints(false)
 		
+		button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
 		button.font = UIFont.systemFontOfSize(16)
 		button.setTitle(UIReturnKeyType.Default.simpleDescription(), forState: .Normal)
 		
