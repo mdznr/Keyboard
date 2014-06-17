@@ -20,9 +20,17 @@ enum KeyboardShiftState {
 	/// Shift is locked-- continue to type capitals.
 	case Locked
 	
+	/// Enables, if disabled, but not if locked.
 	mutating func enableIfDisabled() {
 		if self == .Disabled {
 			self = .Enabled
+		}
+	}
+
+	/// Disables, if enabled, but not if locked.
+	mutating func disabledIfEnabled() {
+		if self == .Enabled {
+			self = .Disabled
 		}
 	}
 }
@@ -294,6 +302,8 @@ class KeyboardViewController: UIInputViewController {
 		if let context = proxy.documentContextBeforeInput {
 			if context.isFirstLetterCapitalized() {
 				self.shiftState.enableIfDisabled()
+			} else {
+				self.shiftState.disabledIfEnabled()
 			}
 		}
 		
