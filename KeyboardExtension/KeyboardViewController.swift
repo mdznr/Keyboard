@@ -322,7 +322,7 @@ class KeyboardViewController: UIInputViewController {
 		if let precedingContext = proxy.documentContextBeforeInput {
 			let numTimesToDelete = precedingContext.numberOfElementsToDeleteToDeleteLastWord()
 			for i in 0...numTimesToDelete {
-				proxy.deleteBackward()
+				self.deleteCharacter()
 			}
 		}
 	}
