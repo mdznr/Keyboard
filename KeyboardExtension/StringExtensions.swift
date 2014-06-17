@@ -10,6 +10,15 @@ import Foundation
 
 extension String {
 	
+	func isFirstLetterCapitalized() -> Bool {
+		// Get the first character as a string.
+		let firstLetter = self.substringToIndex(1)
+		// See if the uppercase version of the string is the same.
+		return !firstLetter.isEmpty &&
+			    firstLetter == firstLetter.uppercaseString &&
+			    firstLetter != firstLetter.lowercaseString
+	}
+	
 	func numberOfElementsToDeleteToDeleteLastWord() -> Int {
 		// All the chunks in the word.
 		var chunks = self.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

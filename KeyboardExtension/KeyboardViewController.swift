@@ -289,9 +289,16 @@ class KeyboardViewController: UIInputViewController {
 	
 	func deleteCharacter() {
 		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		proxy.deleteBackward()
 		
-		// TODO: Check if the character was capitalized, then set the shift state accordingly.
+		// Check if the deleted character is capitalized, then set the shift state accordingly.
+		if let context = proxy.documentContextBeforeInput {
+			if context.isFirstLetterCapitalized() {
+				self.shiftState.enableIfDisabled()
+			}
+		}
+		
+		// Delete before the insertion point.
+		proxy.deleteBackward()
 	}
 	
 	func deleteWord() {
