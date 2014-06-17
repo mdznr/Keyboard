@@ -10,16 +10,23 @@ import UIKit
 
 class ShiftKey: UIButton {
 	
+	var disabledTintColor: UIColor = UIColor.grayColor() as UIColor
+	
+	var enabledTintColor: UIColor = UIColor.blueColor() as UIColor
+	
 	var shiftState: KeyboardShiftState {
 		didSet {
 			// Update appearance.
 			switch shiftState {
 				case .Disabled:
-					self.arrowImageView.image = UIImage(named: "Shift Disabled")
+					arrowImageView.tintColor = disabledTintColor
+					arrowImageView.image = UIImage(named: "Shift Disabled")
 				case .Enabled:
-					self.arrowImageView.image = UIImage(named: "Shift Enabled")
+					arrowImageView.tintColor = enabledTintColor
+					arrowImageView.image = UIImage(named: "Shift Enabled")
 				case .Locked:
-					self.arrowImageView.image = UIImage(named: "Caps Lock")
+					arrowImageView.tintColor = enabledTintColor
+					arrowImageView.image = UIImage(named: "Caps Lock")
 			}
 		}
 	}

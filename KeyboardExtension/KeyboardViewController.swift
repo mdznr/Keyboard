@@ -265,9 +265,11 @@ class KeyboardViewController: UIInputViewController {
 		// Change visual appearance.
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
+		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
 		KeyboardKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
 		spacebar.textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
-		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
+		shiftKey.disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
+		shiftKey.enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
     }
 	
