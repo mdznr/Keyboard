@@ -349,12 +349,18 @@ class KeyboardViewController: UIInputViewController {
 		}
 	}
 	
-	/// Did a right swipe gesture. Add period and a space character.
+	/// Did a right swipe gesture. End the sentence.
 	func didSwipeRight(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
-			self.typeString(". ")
-			self.shiftState.enableIfDisabled()
+			endSentence()
 		}
+	}
+	
+	/// End the sentence by adding a period and enabling capitalization.
+	/// TODO: Insert newline (if possible), if at the start of a sentence. (double-swipe)
+	func endSentence() {
+		self.typeString(". ")
+		self.shiftState.enableIfDisabled()
 	}
 	
 	func deleteKeyPressed(sender: UIButton) {
