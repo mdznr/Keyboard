@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9006F14195022BA00D7C069 /* KeyboardReturnKeyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9006F13195022BA00D7C069 /* KeyboardReturnKeyType.swift */; };
 		C94849F0194E967300B0B0A2 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94849EF194E967300B0B0A2 /* StringExtensions.swift */; };
 		C9496AD7193DB1080019E371 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9496AD6193DB1080019E371 /* main.m */; };
 		C9496ADA193DB1080019E371 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9496AD9193DB1080019E371 /* AppDelegate.m */; };
@@ -64,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C9006F13195022BA00D7C069 /* KeyboardReturnKeyType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardReturnKeyType.swift; sourceTree = "<group>"; };
 		C94849EF194E967300B0B0A2 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		C9496AD1193DB1080019E371 /* Keyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Keyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9496AD5193DB1080019E371 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */,
 				C9DEE71B194E7372005B6296 /* KeyboardAppearance.swift */,
 				C94849EF194E967300B0B0A2 /* StringExtensions.swift */,
+				C9006F13195022BA00D7C069 /* KeyboardReturnKeyType.swift */,
 				C9D1881F194EBA62003739C1 /* Images.xcassets */,
 				C95A10F4194E683D00158C31 /* Supporting Files */,
 			);
@@ -352,6 +355,7 @@
 				C9DC8674194FB3380014EAE9 /* Spacebar.swift in Sources */,
 				C94849F0194E967300B0B0A2 /* StringExtensions.swift in Sources */,
 				C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */,
+				C9006F14195022BA00D7C069 /* KeyboardReturnKeyType.swift in Sources */,
 				C9DF2810194EE3F500BDFCB1 /* KeyboardKey.swift in Sources */,
 				C95A10F7194E683D00158C31 /* KeyboardViewController.swift in Sources */,
 				C9DF2812194EECA000BDFCB1 /* KeyboardDivider.swift in Sources */,

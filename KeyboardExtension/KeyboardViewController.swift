@@ -88,7 +88,7 @@ class KeyboardViewController: UIInputViewController {
 		button.setTranslatesAutoresizingMaskIntoConstraints(false)
 		
 		button.font = UIFont.systemFontOfSize(16)
-		button.setTitle("Search", forState: .Normal)
+		button.setTitle(UIReturnKeyType.Default.simpleDescription(), forState: .Normal)
 		
 		return button
 	}()
@@ -204,7 +204,7 @@ class KeyboardViewController: UIInputViewController {
 		nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
 		row4.addSubview(spacebar)
 		row4.addSubview(returnKey)
-		returnKey.addTarget(self, action: "dismissKeyboard", forControlEvents: .TouchUpInside)
+		returnKey.addTarget(self, action: "returnKeyPressed:", forControlEvents: .TouchUpInside)
 		
 		let views = [
 			"symbolKeyboardButton": symbolKeyboardButton,
@@ -275,6 +275,8 @@ class KeyboardViewController: UIInputViewController {
 		
 		NSLog("Text Did Change!")
 		
+		updateReturnKeyForType(self.returnKeyType())
+		
 		// Change visual appearance.
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
@@ -285,6 +287,11 @@ class KeyboardViewController: UIInputViewController {
 		shiftKey.enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
     }
+	
+	func updateReturnKeyForType(returnKeyType: UIReturnKeyType) {
+		let title = returnKeyType.simpleDescription()
+		self.returnKey.setTitle(title, forState: .Normal)
+	}
 	
 	func appropriatelyCasedString(string: String) -> String {
 		switch self.shiftState {
@@ -406,6 +413,10 @@ class KeyboardViewController: UIInputViewController {
 	func createNewline() {
 		self.typeString("\n")
 		self.shiftState.enableIfDisabled()
+	}
+	
+	func returnKeyPressed(sender: UIButton) {
+		
 	}
 	
 	func deleteKeyPressed(sender: UIButton) {
