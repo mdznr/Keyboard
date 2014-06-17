@@ -77,12 +77,7 @@ class KeyboardViewController: UIInputViewController {
 		
 		return button
 	}()
-	let spacebar: UIView = {
-		let view = UIView()
-		view.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		return view
-	}()
+	let spacebar = Spacebar()
 	let returnKey: UIButton = {
 		let button = UIButton.buttonWithType(.System) as UIButton
 		button.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -214,9 +209,9 @@ class KeyboardViewController: UIInputViewController {
 		]
 		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[symbolKeyboardButton]|", options: nil, metrics: nil, views: views))
 		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nextKeyboardButton]|", options: nil, metrics: nil, views: views))
-		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[spacebar(1)]-(23.5)-|", options: nil, metrics: nil, views: views))
+		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[spacebar]|", options: nil, metrics: nil, views: views))
 		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[returnKey]|", options: nil, metrics: nil, views: views))
-		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(6)-[symbolKeyboardButton(30)]-(8)-[nextKeyboardButton(30)]-(8)-[spacebar]-(8)-[returnKey]-(6)-|", options: nil, metrics: nil, views: views))
+		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(6)-[symbolKeyboardButton(30)]-(8)-[nextKeyboardButton(30)]-(8)-[spacebar(>=128)]-(8)-[returnKey(>=30)]-(6)-|", options: nil, metrics: nil, views: views))
 		
 		// Gestures
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: "didSwipeLeft:")
@@ -262,7 +257,7 @@ class KeyboardViewController: UIInputViewController {
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
 		KeyboardKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
-		spacebar.backgroundColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+		spacebar.textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
 		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
     }
@@ -310,17 +305,13 @@ class KeyboardViewController: UIInputViewController {
 	
 	func didTap(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
-			let point = sender.locationInView(sender.view)
-			NSLog("%@", NSStringFromCGPoint(point))
-			if let row = sender.view.hitTest(point, withEvent: nil) {
-				for subview: UIView in (row.subviews as UIView[]) {
-					let subviewPoint = sender.locationInView(subview)
-					if subview.pointInside(subviewPoint, withEvent: nil) {
-						if let key = subview as? KeyboardKey {
-							typeLetter(key.letter)
-						}
-					}
-				}
+			let view = sender.view
+			let loc = sender.locationInView(view)
+			let subview = view.hitTest(loc, withEvent: nil)
+			if let subview = subview as? KeyboardKey {
+				typeLetter(subview.letter)
+			} else if let subview = subview as? Spacebar {
+				typeLetter(" ")
 			}
 		}
 	}

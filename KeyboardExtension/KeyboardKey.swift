@@ -38,5 +38,13 @@ class KeyboardKey: UILabel {
 		self.font = KeyboardAppearance.keyboardLetterFont()
 		self.textColor = KeyboardAppearance.primaryButtonColorForAppearance(.Default)
 	}
+	
+	override func hitTest(point: CGPoint, withEvent event: UIEvent!) -> UIView! {
+		return pointInside(point, withEvent: event) ? self : nil
+	}
+	
+	override func pointInside(point: CGPoint, withEvent event: UIEvent!) -> Bool {
+		return CGRectContainsPoint(self.bounds, point)
+	}
 
 }
