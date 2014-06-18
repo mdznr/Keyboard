@@ -11,31 +11,29 @@ import UIKit
 // Some constants to use.
 let APPEAR_ANIMATION_DURATION = 0.3
 
-/// Represents the state of shift
-enum KeyboardShiftState {
-	/// Shift is disabled—- types lowercase.
-	case Disabled
-	/// Shift is enabled-- types capitals.
-	case Enabled
-	/// Shift is locked-- continue to type capitals.
-	case Locked
+class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
-	/// Enables, if disabled, but not if locked.
-	mutating func enableIfDisabled() {
-		if self == .Disabled {
-			self = .Enabled
+	// MARK: Typer
+	
+	let typer = Typer()
+	
+	var textualContext: UITextDocumentProxy {
+		get {
+			return self.textDocumentProxy as UITextDocumentProxy
 		}
 	}
-
-	/// Disables, if enabled, but not if locked.
-	mutating func disableIfEnabled() {
-		if self == .Enabled {
-			self = .Disabled
+	
+	func shouldUpdateShiftState(shiftState: KeyboardShiftState) {
+		// TODO: Update the UI to reflect it.
+		self.shiftState = shiftState
+	}
+	
+	var shiftState: KeyboardShiftState = .Disabled {
+		didSet {
+			typer.shiftState = shiftState
+			shiftKey.shiftState = shiftState
 		}
 	}
-}
-
-class KeyboardViewController: UIInputViewController {
 	
 	let row1 = KeyboardViewController.createRow()
 	let row2 = KeyboardViewController.createRow()
@@ -49,12 +47,6 @@ class KeyboardViewController: UIInputViewController {
 	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
 	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
 	let row3Letters = ["Z","X","C","V","B","N","M"]
-	
-	var shiftState: KeyboardShiftState = .Disabled {
-		didSet {
-			self.shiftKey.shiftState = self.shiftState
-		}
-	}
 	
 	var potentiallyDoubleTappingShift: Bool = false
 	
@@ -112,6 +104,7 @@ class KeyboardViewController: UIInputViewController {
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+		typer.delegate = self
     }
 
     override func updateViewConstraints() {
@@ -249,45 +242,7 @@ class KeyboardViewController: UIInputViewController {
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		
-		/*
-		// Set background color.
-		UIView.animateWithDuration(APPEAR_ANIMATION_DURATION,
-			delay: 0,
-			options: .BeginFromCurrentState | .CurveEaseInOut | .AllowAnimatedContent | .AllowUserInteraction,
-			animations: {
-				self.view.backgroundColor = KeyboardViewController.keyboardBackgroundColorForAppearance(self.keyboardAppearance())
-			},
-			completion: nil)
-		*/
-		
 		self.updateAppearance()
-	}
-	
-	/// This automatically updates the shift state based on `autocapitlizationType` and preceding context.
-	func updateShiftState() {
-		switch self.autocapitalizationType() {
-			case .None:
-				// Don't do anything.
-				break
-			case .AllCharacters:
-				// TODO: Only update this if there's no context.
-				self.shiftState = .Locked
-			case .Sentences:
-				// If at the beginning of the document or after a valid punction mark followed by a space, enable shift.
-				if self.isAtBeginningOfPotentialSentence() {
-					self.shiftState.enableIfDisabled()
-				} else {
-					self.shiftState.disableIfEnabled()
-				}
-			case .Words:
-				// If at the begining of the document, or after a space character.
-				if self.isAtBeginningOfPotentialWord() {
-					self.shiftState.enableIfDisabled()
-				} else {
-					self.shiftState.disableIfEnabled()
-				}
-		}
 	}
 
     override func didReceiveMemoryWarning() {
@@ -305,6 +260,8 @@ class KeyboardViewController: UIInputViewController {
         // The app has just changed the document's contents, the document context has been updated.
 		
 		NSLog("Text Did Change!")
+		
+		typer.textDidChange(textInput)
 		
 		self.updateAppearance()
     }
@@ -327,7 +284,7 @@ class KeyboardViewController: UIInputViewController {
 	}
 	
 	func appropriatelyCasedString(string: String) -> String {
-		switch self.shiftState {
+		switch shiftKey.shiftState {
 			case .Locked, .Enabled:
 				return string.uppercaseString
 			case .Disabled:
@@ -335,42 +292,12 @@ class KeyboardViewController: UIInputViewController {
 		}
 	}
 	
-	func typeString(string: String) {
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		let casedString = appropriatelyCasedString(string)
-		proxy.insertText(casedString)
-		
-		updateShiftState()
-	}
-	
-	func deleteCharacter() {
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-
-		updateShiftState()
-//		// Check if the deleted character is capitalized, then set the shift state accordingly.
-//		if let context = proxy.documentContextBeforeInput {
-//			if context.isFirstLetterCapitalized() {
-//				self.shiftState.enableIfDisabled()
-//			} else {
-//				updateShiftState()
-//			}
-//		}
-		
-		// Delete before the insertion point.
-		proxy.deleteBackward()
-	}
-	
-	func deleteWord() {
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		if let precedingContext = proxy.documentContextBeforeInput {
-			let numTimesToDelete = precedingContext.numberOfElementsToDeleteToDeleteLastWord()
-			for i in 0...numTimesToDelete {
-				self.deleteCharacter()
-			}
-		}
-	}
-	
 	// MARK: Gestures
+	
+	func tappedKeyWithCharacter(character: String) {
+		let casedString = appropriatelyCasedString(character)
+		typer.typeString(casedString)
+	}
 	
 	func didTap(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
@@ -378,9 +305,9 @@ class KeyboardViewController: UIInputViewController {
 			let loc = sender.locationInView(view)
 			let subview = view.hitTest(loc, withEvent: nil)
 			if let subview = subview as? KeyboardKey {
-				typeString(subview.letter)
+				tappedKeyWithCharacter(subview.letter)
 			} else if let subview = subview as? Spacebar {
-				typeString(" ")
+				tappedKeyWithCharacter(" ")
 			}
 		}
 	}
@@ -404,7 +331,7 @@ class KeyboardViewController: UIInputViewController {
 	/// Did a swipe left gesture. Delete until previous chunk of whitespace.
 	func didSwipeLeft(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
-			self.deleteWord()
+			typer.deleteWord()
 		}
 	}
 	
@@ -418,49 +345,47 @@ class KeyboardViewController: UIInputViewController {
 	/// Did a swipe down gesture. Add a newline character.
 	func didSwipeDown(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
-			self.createNewline()
+			createNewline()
 		}
 	}
 	
 	/// Did a swipe down gesture with two fingers. Dismiss the keyboard.
 	func didSwipeDownWithTwoFingers(sender: UIGestureRecognizer) {
 		if sender.state == .Ended {
-			self.dismissKeyboard()
+			dismissKeyboard()
 		}
 	}
 	
 	/// End the sentence by adding a period and enabling capitalization.
 	/// TODO: Insert newline (if possible), if at the start of a sentence. (double-swipe)
 	func endSentence() {
-		self.typeString(". ")
+		typer.typeString(". ")
 	}
 	
 	/// Create a newline or act as return
 	func createNewline() {
-		self.typeString("\n")
+		typer.typeString("\n")
 	}
 	
 	func returnKeyPressed(sender: UIButton) {
-		self.createNewline()
+		createNewline()
 	}
 	
 	func deleteKeyPressed(sender: UIButton) {
-		self.deleteCharacter()
+		typer.deleteCharacter()
 	}
 	
 	func shiftKeyPressed(sender: UIButton) {
 		
 		if potentiallyDoubleTappingShift == true {
-			self.shiftState = .Locked
+			shiftState = .Locked
 			potentiallyDoubleTappingShift = false
 		} else {
-			switch self.shiftState {
+			switch shiftState {
 				case .Disabled:
-					self.shiftState = .Enabled
-				case .Enabled:
-					self.shiftState = .Disabled
-				case .Locked:
-					self.shiftState = .Disabled
+					shiftState = .Enabled
+				case .Enabled, .Locked:
+					shiftState = .Disabled
 			}
 			potentiallyDoubleTappingShift = true
 			let timer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)

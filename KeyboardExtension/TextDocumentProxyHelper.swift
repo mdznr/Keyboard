@@ -8,65 +8,49 @@
 
 import UIKit
 
-extension KeyboardViewController {
-	
-	/// Whether the document context is empty or not.
-	func isDocumentContextEmpty() -> Bool {
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		if let precedingContext = proxy.documentContextBeforeInput {
-			if countElements(precedingContext) == 0 {
-				return true
-			}
+/// Whether the insertion point is at the beginning of a potential sentence.
+func UITextDocumentProxyIsAtBeginningOfPotentialSentence(textDocumentProxy: UITextDocumentProxy) -> Bool {
+	// Must be following a set of whitespace characters back to an ending puncutation mark set or nothing at all.
+	if let precedingContext = textDocumentProxy.documentContextBeforeInput {
+		if precedingContext.isAtBeginningOfPotentialSentence {
+			return true
 		}
-		if let subsequentContext = proxy.documentContextAfterInput {
-			if countElements(subsequentContext) == 0 {
-				return true
-			}
+		if UITextDocumentProxyIsEmpty(textDocumentProxy) {
+			return true
 		}
-		return true
 	}
 	
-	/// Whether the insertion point is at the beginning of a potential word.
-	func isAtBeginningOfPotentialWord() -> Bool {
-		// Must be following a whitespace character or nothing at all.
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		if let precedingContext = proxy.documentContextBeforeInput {
-//			if precedingContext.isEmpty {
-//				return true
-//			}
-//			// ORIGINAL REGEX: ^.*( |/|—)$
-//			let match = precedingContext.rangeOfString("^.*( |/|—)$", options: .RegularExpressionSearch)
-//			if !match.isEmpty {
-//				return true
-//			}
-			
-			if precedingContext.isAtBeginningOfPotentialWord {
-				return true
-			}
+	return false
+}
+
+/// Whether the insertion point is at the beginning of a potential word.
+func UITextDocumentProxyIsAtBeginningOfPotentialWord(textDocumentProxy: UITextDocumentProxy) -> Bool {
+	// Must be following a whitespace character or nothing at all.
+	if let precedingContext = textDocumentProxy.documentContextBeforeInput {
+		if precedingContext.isAtBeginningOfPotentialWord {
+			return true
 		}
-		
-		return false
+		if UITextDocumentProxyIsEmpty(textDocumentProxy) {
+			return true
+		}
 	}
 	
-	/// Whether the insertion point is at the beginning of a potential sentence.
-	func isAtBeginningOfPotentialSentence() -> Bool {
-		// Must be following a set of whitespace characters back to an ending puncutation mark set or nothing at all.
-		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		if let precedingContext = proxy.documentContextBeforeInput {
-//			if precedingContext.isEmpty {
-//				return true
-//			}
-//			// ORIGINAL REGEX: ^.*[\.\!\?][")]?\s+$
-//			let match = precedingContext.rangeOfString("^.*[\\.\\!\\?][\")]?\\s+$", options: .RegularExpressionSearch)
-//			if !match.isEmpty {
-//				return true
-//			}
-			
-			if precedingContext.isAtBeginningOfPotentialSentence {
-				return true
-			}
+	return false
+}
+
+/// Whether the document context is empty or not.
+func UITextDocumentProxyIsEmpty(textDocumentProxy: UITextDocumentProxy) -> Bool {
+	if let precedingContext = textDocumentProxy.documentContextBeforeInput {
+		if countElements(precedingContext) == 0 {
+			return true
 		}
-		
-		return false
 	}
+	
+	if let subsequentContext = textDocumentProxy.documentContextAfterInput {
+		if countElements(subsequentContext) == 0 {
+			return true
+		}
+	}
+	
+	return true
 }
