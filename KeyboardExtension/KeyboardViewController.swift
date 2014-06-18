@@ -410,14 +410,14 @@ class KeyboardViewController: UIInputViewController {
 		self.shiftState.enableIfDisabled()
 	}
 	
-	/// Create a new line.
+	/// Create a newline or act as return
 	func createNewline() {
 		self.typeString("\n")
 		self.shiftState.enableIfDisabled()
 	}
 	
 	func returnKeyPressed(sender: UIButton) {
-		
+		self.createNewline()
 	}
 	
 	func deleteKeyPressed(sender: UIButton) {
