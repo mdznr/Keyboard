@@ -93,10 +93,13 @@ class ShiftKey: UIButton {
 	
 	var potentiallyDoubleTappingShift: Bool = false
 	
+	var timer: NSTimer!
+	
 	func didTap(sender: UIButton) {
 		if potentiallyDoubleTappingShift == true {
 			updateShiftState(.Locked)
 			potentiallyDoubleTappingShift = false
+			timer?.invalidate()
 		} else {
 			switch shiftState {
 			case .Disabled:
@@ -105,7 +108,7 @@ class ShiftKey: UIButton {
 				updateShiftState(.Disabled)
 			}
 			potentiallyDoubleTappingShift = true
-			let timer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)
+			timer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)
 			NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
 		}
 	}
