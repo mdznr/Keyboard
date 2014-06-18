@@ -65,7 +65,7 @@ class ShiftKey: UIButton {
 	let arrowImageView: UIImageView = {
 		let view = UIImageView()
 		view.setTranslatesAutoresizingMaskIntoConstraints(false)
-		view.contentMode = .ScaleAspectFit
+		view.contentMode = .Center
 		return view
 	}()
 	
