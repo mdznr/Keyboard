@@ -166,7 +166,10 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(outer)-[A(width)]-(inter)-[S(width)]-(inter)-[D(width)]-(inter)-[F(width)]-(inter)-[G(width)]-(inter)-[H(width)]-(inter)-[J(width)]-(inter)-[K(width)]-(inter)-[L(width)]-(outer)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: row2HorizontalMetrics, views: row2Labels))
 		
 		// Row 3
-		shiftKey.addTarget(self, action: "shiftKeyPressed:", forControlEvents: .TouchUpInside)
+		shiftKey.shiftStateChangeHandler = {
+			shiftState in
+			self.shiftState = shiftState
+		}
 		row3Labels.updateValue(shiftKey, forKey: "shiftButton")
 		row3.addSubview(shiftKey)
 		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[shiftButton(>=height)]|", options: nil, metrics: ["height": 30], views: ["shiftButton": shiftKey]))
@@ -373,28 +376,5 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
 	func deleteKeyPressed(sender: UIButton) {
 		typer.deleteCharacter()
-	}
-	
-	func shiftKeyPressed(sender: UIButton) {
-		
-		if potentiallyDoubleTappingShift == true {
-			shiftState = .Locked
-			potentiallyDoubleTappingShift = false
-		} else {
-			switch shiftState {
-				case .Disabled:
-					shiftState = .Enabled
-				case .Enabled, .Locked:
-					shiftState = .Disabled
-			}
-			potentiallyDoubleTappingShift = true
-			let timer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)
-			NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
-		}
-		
-	}
-	
-	func failedToDoubleTapShift(timer: NSTimer) {
-		potentiallyDoubleTappingShift = false
 	}
 }

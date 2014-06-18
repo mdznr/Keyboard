@@ -108,7 +108,7 @@ class Typer: NSObject {
 	
 	// MARK: Private
 	
-	/// Use this to set the shift state internally.
+	/// Use this to suggest a change to shiftState
 	/// This ensures that the delegate gets notified. It's kinda weird, but cleaner than having the delegate do KVO.
 	func updateShiftState(shiftState: KeyboardShiftState) {
 		delegate?.shouldUpdateShiftState(shiftState)
