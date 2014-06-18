@@ -248,6 +248,8 @@ class KeyboardViewController: UIInputViewController {
     }
 	
 	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		
 		/*
 		// Set background color.
 		UIView.animateWithDuration(APPEAR_ANIMATION_DURATION,
@@ -258,6 +260,8 @@ class KeyboardViewController: UIInputViewController {
 			},
 			completion: nil)
 		*/
+		
+		self.updateAppearance()
 	}
 
     override func didReceiveMemoryWarning() {
@@ -266,17 +270,21 @@ class KeyboardViewController: UIInputViewController {
     }
 
     override func textWillChange(textInput: UITextInput) {
+		super.textWillChange(textInput)
         // The app is about to change the document's contents. Perform any preparation here.
     }
 
     override func textDidChange(textInput: UITextInput) {
+		super.textDidChange(textInput)
         // The app has just changed the document's contents, the document context has been updated.
 		
 		NSLog("Text Did Change!")
 		
+		self.updateAppearance()
+    }
+	
+	func updateAppearance() {
 		updateReturnKeyForType(self.returnKeyType())
-		
-		// Change visual appearance.
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
 		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
@@ -285,7 +293,7 @@ class KeyboardViewController: UIInputViewController {
 		shiftKey.disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
 		shiftKey.enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
-    }
+	}
 	
 	func updateReturnKeyForType(returnKeyType: UIReturnKeyType) {
 		let title = returnKeyType.simpleDescription()
