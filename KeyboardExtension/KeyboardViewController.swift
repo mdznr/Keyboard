@@ -55,7 +55,9 @@ class KeyboardViewController: UIInputViewController {
 			self.shiftKey.shiftState = self.shiftState
 		}
 	}
-
+	
+	var potentiallyDoubleTappingShift: Bool = false
+	
 	let shiftKey = ShiftKey()
 	let deleteButton : UIButton = {
 		let button = UIButton.buttonWithType(.System) as UIButton
@@ -243,10 +245,6 @@ class KeyboardViewController: UIInputViewController {
 		
 		let tap = UITapGestureRecognizer(target: self, action: "didTap:")
 		self.inputView.addGestureRecognizer(tap)
-		
-		let doubleTap = UITapGestureRecognizer(target: self, action: "doubleTapped:")
-		doubleTap.numberOfTapsRequired = 2
-		self.shiftKey.addGestureRecognizer(doubleTap)
     }
 	
 	override func viewDidAppear(animated: Bool) {
@@ -425,21 +423,27 @@ class KeyboardViewController: UIInputViewController {
 	}
 	
 	func shiftKeyPressed(sender: UIButton) {
-		switch self.shiftState {
-		case .Disabled:
-			self.shiftState = .Enabled
-		case .Enabled:
-			self.shiftState = .Disabled
-		case .Locked:
-			self.shiftState = .Disabled
+		
+		if potentiallyDoubleTappingShift == true {
+			self.shiftState = .Locked
+			potentiallyDoubleTappingShift = false
+		} else {
+			switch self.shiftState {
+				case .Disabled:
+					self.shiftState = .Enabled
+				case .Enabled:
+					self.shiftState = .Disabled
+				case .Locked:
+					self.shiftState = .Disabled
+			}
+			potentiallyDoubleTappingShift = true
+			let timer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)
+			NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
 		}
+		
 	}
 	
-	func doubleTapped(sender: UITapGestureRecognizer) {
-		if sender.state == .Ended {
-			if sender.view == self.shiftKey {
-				self.shiftState = .Locked
-			}
-		}
+	func failedToDoubleTapShift(timer: NSTimer) {
+		potentiallyDoubleTappingShift = false
 	}
 }
