@@ -67,4 +67,37 @@ extension String {
 		
 		return numberOfElementsToDelete
 	}
+	
+	var isAtBeginningOfPotentialWord: Bool {
+		get {
+			if self.isEmpty {
+				return true
+			}
+			
+			// ORIGINAL REGEX: ^.*( |/|—)$
+			let match = self.rangeOfString("^.*( |/|—)$", options: .RegularExpressionSearch)
+			if !match.isEmpty {
+				return true
+			}
+			
+			return false
+		}
+	}
+	
+	var isAtBeginningOfPotentialSentence: Bool {
+		get {
+			if self.isEmpty {
+				return true
+			}
+			
+			// ORIGINAL REGEX: ^.*[\.\!\?][")]?\s+$
+			let match = self.rangeOfString("^.*[\\.\\!\\?][\")]?\\s+$", options: .RegularExpressionSearch)
+			if !match.isEmpty {
+				return true
+			}
+			
+			return false
+		}
+	}
+	
 }

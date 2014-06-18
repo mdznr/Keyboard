@@ -28,7 +28,7 @@ enum KeyboardShiftState {
 	}
 
 	/// Disables, if enabled, but not if locked.
-	mutating func disabledIfEnabled() {
+	mutating func disableIfEnabled() {
 		if self == .Enabled {
 			self = .Disabled
 		}
@@ -263,6 +263,32 @@ class KeyboardViewController: UIInputViewController {
 		
 		self.updateAppearance()
 	}
+	
+	/// This automatically updates the shift state based on `autocapitlizationType` and preceding context.
+	func updateShiftState() {
+		switch self.autocapitalizationType() {
+			case .None:
+				// Don't do anything.
+				break
+			case .AllCharacters:
+				// TODO: Only update this if there's no context.
+				self.shiftState = .Locked
+			case .Sentences:
+				// If at the beginning of the document or after a valid punction mark followed by a space, enable shift.
+				if self.isAtBeginningOfPotentialSentence() {
+					self.shiftState.enableIfDisabled()
+				} else {
+					self.shiftState.disableIfEnabled()
+				}
+			case .Words:
+				// If at the begining of the document, or after a space character.
+				if self.isAtBeginningOfPotentialWord() {
+					self.shiftState.enableIfDisabled()
+				} else {
+					self.shiftState.disableIfEnabled()
+				}
+		}
+	}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -314,27 +340,21 @@ class KeyboardViewController: UIInputViewController {
 		let casedString = appropriatelyCasedString(string)
 		proxy.insertText(casedString)
 		
-		switch self.shiftState {
-			case .Locked:
-				break
-			case .Enabled:
-				self.shiftState = .Disabled
-			case .Disabled:
-				break
-		}
+		updateShiftState()
 	}
 	
 	func deleteCharacter() {
 		let proxy = self.textDocumentProxy as UITextDocumentProxy
-		
-		// Check if the deleted character is capitalized, then set the shift state accordingly.
-		if let context = proxy.documentContextBeforeInput {
-			if context.isFirstLetterCapitalized() {
-				self.shiftState.enableIfDisabled()
-			} else {
-				self.shiftState.disabledIfEnabled()
-			}
-		}
+
+		updateShiftState()
+//		// Check if the deleted character is capitalized, then set the shift state accordingly.
+//		if let context = proxy.documentContextBeforeInput {
+//			if context.isFirstLetterCapitalized() {
+//				self.shiftState.enableIfDisabled()
+//			} else {
+//				updateShiftState()
+//			}
+//		}
 		
 		// Delete before the insertion point.
 		proxy.deleteBackward()
@@ -413,13 +433,11 @@ class KeyboardViewController: UIInputViewController {
 	/// TODO: Insert newline (if possible), if at the start of a sentence. (double-swipe)
 	func endSentence() {
 		self.typeString(". ")
-		self.shiftState.enableIfDisabled()
 	}
 	
 	/// Create a newline or act as return
 	func createNewline() {
 		self.typeString("\n")
-		self.shiftState.enableIfDisabled()
 	}
 	
 	func returnKeyPressed(sender: UIButton) {

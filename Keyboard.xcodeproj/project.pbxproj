@@ -17,6 +17,7 @@
 		C95A10F7194E683D00158C31 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A10F6194E683D00158C31 /* KeyboardViewController.swift */; };
 		C95A10FA194E683D00158C31 /* mattzanchelli.Keyboard.KeyboardExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C95A10F2194E683D00158C31 /* mattzanchelli.Keyboard.KeyboardExtension.appex */; };
 		C98CA733194FFC4B0099B9F7 /* ShiftKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CA732194FFC4B0099B9F7 /* ShiftKey.swift */; };
+		C99470101951484700674519 /* TextDocumentProxyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994700F1951484700674519 /* TextDocumentProxyHelper.swift */; };
 		C9D18820194EBA62003739C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9D1881F194EBA62003739C1 /* Images.xcassets */; };
 		C9DC8674194FB3380014EAE9 /* Spacebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC8673194FB3380014EAE9 /* Spacebar.swift */; };
 		C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */; };
@@ -81,6 +82,7 @@
 		C95A10F5194E683D00158C31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C95A10F6194E683D00158C31 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		C98CA732194FFC4B0099B9F7 /* ShiftKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftKey.swift; sourceTree = "<group>"; };
+		C994700F1951484700674519 /* TextDocumentProxyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDocumentProxyHelper.swift; sourceTree = "<group>"; };
 		C9D1881F194EBA62003739C1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9DC8673194FB3380014EAE9 /* Spacebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spacebar.swift; sourceTree = "<group>"; };
 		C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Traits.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				C98CA732194FFC4B0099B9F7 /* ShiftKey.swift */,
 				C9DF2811194EECA000BDFCB1 /* KeyboardDivider.swift */,
 				C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */,
+				C994700F1951484700674519 /* TextDocumentProxyHelper.swift */,
 				C9DEE71B194E7372005B6296 /* KeyboardAppearance.swift */,
 				C94849EF194E967300B0B0A2 /* StringExtensions.swift */,
 				C9006F13195022BA00D7C069 /* ReturnKeyType.swift */,
@@ -351,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C99470101951484700674519 /* TextDocumentProxyHelper.swift in Sources */,
 				C98CA733194FFC4B0099B9F7 /* ShiftKey.swift in Sources */,
 				C9DC8674194FB3380014EAE9 /* Spacebar.swift in Sources */,
 				C94849F0194E967300B0B0A2 /* StringExtensions.swift in Sources */,
