@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.17" systemVersion="14A238x" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="14A261i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -13,57 +13,64 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Field" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="GZP-UF-NIY">
-                                <rect key="frame" x="20" y="88" width="440" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <segmentedControl appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dBP-MT-j6W">
-                                <rect key="frame" x="20" y="35" width="440" height="29"/>
-                                <segments>
-                                    <segment title="Default"/>
-                                    <segment title="Light"/>
-                                    <segment title="Dark"/>
-                                </segments>
-                                <connections>
-                                    <action selector="didChangeKeyboardAppearance:" destination="BYZ-38-t0r" eventType="valueChanged" id="Gmu-85-u4N"/>
-                                </connections>
-                            </segmentedControl>
-                            <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3G-Ut-Rzz">
-                                <rect key="frame" x="269" y="133" width="191" height="30"/>
-                                <state key="normal" title="Dismiss Keyboard">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didDismissKeyboard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5tt-hp-ctN"/>
-                                </connections>
-                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="lKR-YF-kW1">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                            </textView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="htK-et-tkV">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <navigationItem id="zfk-o3-Wt5">
+                                        <nil key="title"/>
+                                        <segmentedControl key="titleView" appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="dBP-MT-j6W">
+                                            <rect key="frame" x="70" y="6.5" width="180" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="Default"/>
+                                                <segment title="Light"/>
+                                                <segment title="Dark"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="didChangeKeyboardAppearance:" destination="BYZ-38-t0r" eventType="valueChanged" id="Gmu-85-u4N"/>
+                                            </connections>
+                                        </segmentedControl>
+                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="Fbl-9A-Gj0">
+                                            <connections>
+                                                <action selector="done:" destination="BYZ-38-t0r" id="TlL-E2-rgW"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="u3G-Ut-Rzz" secondAttribute="trailing" constant="20" id="5Wy-uj-yBA"/>
-                            <constraint firstAttribute="trailing" secondItem="dBP-MT-j6W" secondAttribute="trailing" constant="20" id="R4Y-oM-Usu"/>
-                            <constraint firstItem="GZP-UF-NIY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="R5L-nh-aiv"/>
-                            <constraint firstItem="GZP-UF-NIY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="Ue5-9Q-aVQ"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GZP-UF-NIY" secondAttribute="trailing" constant="20" id="WhT-aN-gcG"/>
-                            <constraint firstAttribute="trailing" secondItem="GZP-UF-NIY" secondAttribute="trailing" constant="20" id="aRG-iu-Po6"/>
-                            <constraint firstItem="u3G-Ut-Rzz" firstAttribute="top" secondItem="GZP-UF-NIY" secondAttribute="bottom" constant="15" id="eca-3o-3xe"/>
-                            <constraint firstItem="dBP-MT-j6W" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="nwe-pA-v1O"/>
-                            <constraint firstItem="dBP-MT-j6W" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="15" id="qf6-aC-9WZ"/>
-                            <constraint firstItem="GZP-UF-NIY" firstAttribute="top" secondItem="dBP-MT-j6W" secondAttribute="bottom" constant="25" id="vJh-ao-kbx"/>
+                            <constraint firstItem="lKR-YF-kW1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Rlu-O9-AvC"/>
+                            <constraint firstItem="lKR-YF-kW1" firstAttribute="leading" secondItem="htK-et-tkV" secondAttribute="leading" id="S6p-2C-FjX"/>
+                            <constraint firstItem="lKR-YF-kW1" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="UN0-Kw-lUP"/>
+                            <constraint firstItem="htK-et-tkV" firstAttribute="top" secondItem="lKR-YF-kW1" secondAttribute="top" id="bAk-pg-Rzg"/>
+                            <constraint firstAttribute="bottom" secondItem="lKR-YF-kW1" secondAttribute="bottom" id="cxJ-ig-0Ar"/>
+                            <constraint firstAttribute="trailing" secondItem="htK-et-tkV" secondAttribute="trailing" id="eTv-oZ-bMB"/>
+                            <constraint firstItem="htK-et-tkV" firstAttribute="trailing" secondItem="lKR-YF-kW1" secondAttribute="trailing" id="lXI-Om-18x"/>
                         </constraints>
-                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="textField" destination="GZP-UF-NIY" id="m1S-iM-LCI"/>
+                        <outlet property="textView" destination="lKR-YF-kW1" id="wXa-NQ-3wD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="277" y="386"/>
+            <point key="canvasLocation" x="806" y="386"/>
         </scene>
     </scenes>
 </document>
