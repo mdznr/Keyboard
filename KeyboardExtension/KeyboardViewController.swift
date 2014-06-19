@@ -35,6 +35,52 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 	}
 	
+	// MARK: Special Keys
+	
+	let shiftKey = ShiftKey()
+	
+	let deleteButton: UIButton = {
+		let button = UIButton.buttonWithType(.System) as UIButton
+		button.setTranslatesAutoresizingMaskIntoConstraints(false)
+		
+		button.setImage(UIImage(named: "Delete"), forState: .Normal)
+		
+		return button
+	}()
+	
+	let symbolKeyboardButton: UIButton = {
+		let button = UIButton.buttonWithType(.System) as UIButton
+		button.setTranslatesAutoresizingMaskIntoConstraints(false)
+		
+		button.setImage(UIImage(named: "Symbols"), forState: .Normal)
+		
+		return button
+	}()
+	
+	let nextKeyboardButton: UIButton = {
+		let button = UIButton.buttonWithType(.System) as UIButton
+		button.setTranslatesAutoresizingMaskIntoConstraints(false)
+		
+		button.setImage(UIImage(named: "Globe"), forState: .Normal)
+		
+		return button
+	}()
+	
+	let returnKey: UIButton = {
+		let button = UIButton.buttonWithType(.System) as UIButton
+		button.setTranslatesAutoresizingMaskIntoConstraints(false)
+		
+		button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+		button.font = UIFont.systemFontOfSize(16)
+		button.setTitle(UIReturnKeyType.Default.simpleDescription(), forState: .Normal)
+		
+		return button
+	}()
+	
+	let spacebar = Spacebar()
+	
+	// MARK: Lettered Keys
+	
 	let row1 = KeyboardViewController.createRow()
 	let row2 = KeyboardViewController.createRow()
 	let row3 = KeyboardViewController.createRow()
@@ -47,46 +93,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
 	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
 	let row3Letters = ["Z","X","C","V","B","N","M"]
-	
-	var potentiallyDoubleTappingShift: Bool = false
-	
-	let shiftKey = ShiftKey()
-	let deleteButton : UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.setImage(UIImage(named: "Delete"), forState: .Normal)
-		
-		return button
-	}()
-	
-	let symbolKeyboardButton : UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.setImage(UIImage(named: "Symbols"), forState: .Normal)
-		
-		return button
-	}()
-	let nextKeyboardButton : UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.setImage(UIImage(named: "Globe"), forState: .Normal)
-		
-		return button
-	}()
-	let spacebar = Spacebar()
-	let returnKey: UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-		button.font = UIFont.systemFontOfSize(16)
-		button.setTitle(UIReturnKeyType.Default.simpleDescription(), forState: .Normal)
-		
-		return button
-	}()
 	
 	class func createRow() -> UIView {
 		let view = UIView()
@@ -101,11 +107,15 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		return view
 	}
+	
+	// MARK: Initialization
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 		typer.delegate = self
     }
+	
+	// MARK: UIViewController
 
     override func updateViewConstraints() {
         super.updateViewConstraints()
@@ -252,6 +262,8 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated
     }
+	
+	// MARK: UITextInputDelegate
 
     override func textWillChange(textInput: UITextInput) {
 		super.textWillChange(textInput)
@@ -268,6 +280,8 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		self.updateAppearance()
     }
+	
+	// MARK: -
 	
 	func updateAppearance() {
 		updateReturnKeyForType(self.returnKeyType())
