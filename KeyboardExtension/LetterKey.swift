@@ -1,5 +1,5 @@
 //
-//  KeyboardKey.swift
+//  LetterKey.swift
 //  Keyboard
 //
 //  Created by Matt Zanchelli on 6/16/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KeyboardKey: UILabel {
+class LetterKey: UILabel {
 	
 	/// The letter to display on the key.
 	/// This will truncate to one letter.

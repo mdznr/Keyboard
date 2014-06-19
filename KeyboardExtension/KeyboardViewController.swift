@@ -148,7 +148,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		// Row 1
 		for letter in row1Letters {
-			let label = KeyboardKey(letter: letter)
+			let label = LetterKey(letter: letter)
 			row1Labels.updateValue(label, forKey: letter)
 			row1.addSubview(label)
 			row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
@@ -163,7 +163,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		// Row 2
 		for letter in row2Letters {
-			let label = KeyboardKey(letter: letter)
+			let label = LetterKey(letter: letter)
 			row2Labels.updateValue(label, forKey: letter)
 			row2.addSubview(label)
 			row2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
@@ -190,7 +190,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[deleteButton(>=height)]|", options: nil, metrics: ["height": 30], views: ["deleteButton": deleteButton]))
 		
 		for letter in row3Letters {
-			let label = KeyboardKey(letter: letter)
+			let label = LetterKey(letter: letter)
 			row3Labels.updateValue(label, forKey: letter)
 			row3.addSubview(label)
 			row3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: ["height": 19], views: ["label": label]))
@@ -288,7 +288,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
 		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
-		KeyboardKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+		LetterKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
 		spacebar.textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
 		shiftKey.disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
 		shiftKey.enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
@@ -321,7 +321,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 			let view = sender.view
 			let loc = sender.locationInView(view)
 			let subview = view.hitTest(loc, withEvent: nil)
-			if let subview = subview as? KeyboardKey {
+			if let subview = subview as? LetterKey {
 				tappedKeyWithCharacter(subview.letter)
 			} else if let subview = subview as? Spacebar {
 				tappedKeyWithCharacter(" ")
