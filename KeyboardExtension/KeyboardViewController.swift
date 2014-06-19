@@ -149,6 +149,9 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 		keys.append(row3Keys)
 		
+		var row4Keys = KeyboardKey[]()
+		keys.append(row4Keys)
+		
 		keyboard.keys = keys
 		
 		self.inputView.addSubview(nextKeyboardButton)

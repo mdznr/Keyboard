@@ -63,7 +63,9 @@ class Keyboard: UIControl {
 					horizontalVisualFormatString += "[\(viewName)(==view0)]"
 				}
 				horizontalVisualFormatString += "-(\(edgeInsets[x].right))-|"
-				row.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(horizontalVisualFormatString, options: nil, metrics: nil, views: views))
+				if views.count > 0 {
+					row.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(horizontalVisualFormatString, options: nil, metrics: nil, views: views))
+				}
 			}
 			rowVisualFormatString += "|"
 			self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(rowVisualFormatString, options: nil, metrics: nil, views: rows))
