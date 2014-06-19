@@ -29,9 +29,6 @@ class Keyboard: UIControl {
 	
 	// MARK: Properties
 	
-	/// The number of rows on the keyboard.
-	var numberOfRows = 4
-	
 	/// An array of rows (an array) of keys.
 	var keys: KeyboardKey[][] = KeyboardKey[][]() {
 		willSet {
@@ -78,6 +75,9 @@ class Keyboard: UIControl {
 	
 	/// The heights for each row.
 	var rowHeights = CGFloat[]()
+	
+	
+	// MARK: Helper functions
 	
 	class func createRow() -> UIView {
 		let view = UIView()
