@@ -8,16 +8,41 @@
 
 import UIKit
 
-class LetterKey: UILabel {
+class LetterKey: KeyboardKey {
 	
 	/// The letter to display on the key.
 	/// This will truncate to one letter.
 	var letter: NSString {
 		get {
-			return self.text
+			let text = label.text
+			return capitalized ? text.uppercaseString : text.lowercaseString
 		}
 		set {
-			self.text = newValue.substringToIndex(1)
+			let text = newValue.substringToIndex(1)
+			label.text = capitalized ? text.uppercaseString : text.lowercaseString
+		}
+	}
+	
+	/// A Boolean value representing whether or not the letter is capitalized
+	var capitalized: Bool = false {
+		didSet {
+			label.text = capitalized ? label.text.uppercaseString : label.text.lowercaseString
+		}
+	}
+	
+	var textColor: UIColor {
+		get {
+			return self.label.textColor
+		}
+		set {
+			self.label.textColor = tintColor
+		}
+	}
+	
+	/// A change in appearance when highlighted is set.
+	override var highlighted: Bool {
+		didSet {
+			self.backgroundColor = highlighted ? UIColor.redColor() : UIColor.clearColor()
 		}
 	}
 	
@@ -34,17 +59,17 @@ class LetterKey: UILabel {
 		super.init(frame: frame)
 		
 		self.setTranslatesAutoresizingMaskIntoConstraints(false)
-		self.textAlignment = .Center
-		self.font = KeyboardAppearance.keyboardLetterFont()
-		self.textColor = KeyboardAppearance.primaryButtonColorForAppearance(.Default)
+		
+		self.addSubview(label)
+		label.setTranslatesAutoresizingMaskIntoConstraints(false)
+		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[label]|", options: nil, metrics: nil, views: ["label": label]))
+		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: nil, metrics: nil, views: ["label": label]))
+		
+		label.textAlignment = .Center
+		label.font = KeyboardAppearance.keyboardLetterFont()
+		label.textColor = KeyboardAppearance.primaryButtonColorForAppearance(.Default)
 	}
 	
-	override func hitTest(point: CGPoint, withEvent event: UIEvent!) -> UIView! {
-		return pointInside(point, withEvent: event) ? self : nil
-	}
+	let label = UILabel()
 	
-	override func pointInside(point: CGPoint, withEvent event: UIEvent!) -> Bool {
-		return CGRectContainsPoint(self.bounds, point)
-	}
-
 }

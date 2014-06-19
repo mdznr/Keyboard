@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Spacebar: UIView {
+class Spacebar: KeyboardKey {
 	
 	var textColor: UIColor = KeyboardAppearance.primaryButtonColorForAppearance(.Default) {
 		didSet {
@@ -16,7 +16,6 @@ class Spacebar: UIView {
 		}
 	}
 	
-	/*
 	override var highlighted: Bool {
 		didSet {
 			UIView.animateWithDuration(0.18, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: .BeginFromCurrentState | .AllowUserInteraction, animations: {
@@ -30,7 +29,6 @@ class Spacebar: UIView {
 			}, completion: nil)
 		}
 	}
-	*/
 	
 	let horizontalLine: UIView = {
 		let view = UIView()
@@ -51,16 +49,5 @@ class Spacebar: UIView {
 		horizontalLine.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: 1)
 		self.addSubview(horizontalLine)
     }
-	
-	
-	// MARK: Hit Testing
-	
-	override func hitTest(point: CGPoint, withEvent event: UIEvent!) -> UIView! {
-		return pointInside(point, withEvent: event) ? self : nil
-	}
-	
-	override func pointInside(point: CGPoint, withEvent event: UIEvent!) -> Bool {
-		return CGRectContainsPoint(self.bounds, point)
-	}
 
 }

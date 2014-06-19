@@ -35,6 +35,10 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 	}
 	
+	// MARK: Keyboard
+	
+	let keyboard = Keyboard()
+	
 	// MARK: Special Keys
 	
 	let shiftKey = ShiftKey()
@@ -81,32 +85,15 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
 	// MARK: Lettered Keys
 	
-	let row1 = KeyboardViewController.createRow()
-	let row2 = KeyboardViewController.createRow()
-	let row3 = KeyboardViewController.createRow()
-	let row4 = KeyboardViewController.createRow()
-	
-	var row1Labels = Dictionary<String, UIView>()
-	var row2Labels = Dictionary<String, UIView>()
-	var row3Labels = Dictionary<String, UIView>()
-	
 	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
 	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
 	let row3Letters = ["Z","X","C","V","B","N","M"]
 	
-	class func createRow() -> UIView {
-		let view = UIView()
-		view.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		let divider = KeyboardDivider()
-		view.addSubview(divider)
-		
-		let views = ["divider": divider]
-		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[divider]|", options: nil, metrics: nil, views: views))
-		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[divider(0.5)]", options: nil, metrics: nil, views: views))
-		
-		return view
-	}
+	/*
+	var row1Labels = Dictionary<String, UIView>()
+	var row2Labels = Dictionary<String, UIView>()
+	var row3Labels = Dictionary<String, UIView>()
+	*/
 	
 	// MARK: Initialization
 
@@ -125,27 +112,38 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		// Rows
-		let rows = [
-			"row1": row1,
-			"row2": row2,
-			"row3": row3,
-			"row4": row4
-		]
-		for (rowName, row) in rows {
-			self.inputView.addSubview(row)
-		}
-		let row1Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row1]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row1Constraints)
-		let row2Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row2]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row2Constraints)
-		let row3Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row3]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row3Constraints)
-		let row4Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row4]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(row4Constraints)
-		let rowConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[row1(59)][row2(55)][row3(54)][row4(48)]|", options: nil, metrics: nil, views: rows)
-		self.inputView.addConstraints(rowConstraints)
+		self.inputView.addSubview(keyboard)
 		
+		var row1Keys = KeyboardKey[]()
+		for letter in row1Letters {
+			let letterKey = LetterKey(letter: letter)
+			letterKey.capitalized = true
+			row1Keys.append(letterKey)
+		}
+		keyboard.row1Keys = row1Keys
+		
+		var row2Keys = KeyboardKey[]()
+		for letter in row2Letters {
+			let letterKey = LetterKey(letter: letter)
+			letterKey.capitalized = true
+			row2Keys.append(letterKey)
+		}
+		keyboard.row2Keys = row2Keys
+		
+		var row3Keys = KeyboardKey[]()
+		for letter in row3Letters {
+			let letterKey = LetterKey(letter: letter)
+			letterKey.capitalized = true
+			row3Keys.append(letterKey)
+		}
+		keyboard.row3Keys = row3Keys
+		
+		self.inputView.addSubview(nextKeyboardButton)
+		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(true)
+		nextKeyboardButton.frame = CGRect(x: 45, y: 176, width: 30, height: 30)
+		nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
+		
+		/*
 		// Row 1
 		for letter in row1Letters {
 			let label = LetterKey(letter: letter)
@@ -226,6 +224,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[spacebar]|", options: nil, metrics: nil, views: views))
 		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[returnKey]|", options: nil, metrics: nil, views: views))
 		row4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(6)-[symbolKeyboardButton(30)]-(8)-[nextKeyboardButton(30)]-(8)-[spacebar(>=128)]-(8)-[returnKey(>=30)]-(6)-|", options: nil, metrics: nil, views: views))
+		*/
 		
 		// Gestures
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: "didSwipeLeft:")
@@ -287,17 +286,17 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		updateReturnKeyForType(self.returnKeyType())
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
-		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
-		LetterKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
-		spacebar.textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
-		shiftKey.disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
-		shiftKey.enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
+//		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
+//		LetterKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+//		Spacebar.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+//		ShiftKey.appearance().disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
+//		ShiftKey.appearance().enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
 	}
 	
 	func updateReturnKeyForType(returnKeyType: UIReturnKeyType) {
 		let title = returnKeyType.simpleDescription()
-		self.returnKey.setTitle(title, forState: .Normal)
+		returnKey.setTitle(title, forState: .Normal)
 	}
 	
 	func appropriatelyCasedString(string: String) -> String {

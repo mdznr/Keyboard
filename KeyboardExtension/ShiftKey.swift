@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShiftKey: UIButton {
+class ShiftKey: KeyboardKey {
 	
 	// MARK: Public Properties
 	
@@ -54,8 +54,6 @@ class ShiftKey: UIButton {
 		self.addSubview(arrowImageView)
 		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[arrowImageView]|", options: nil, metrics: nil, views: ["arrowImageView": arrowImageView]))
 		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[arrowImageView]|", options: nil, metrics: nil, views: ["arrowImageView": arrowImageView]))
-		
-		self.addTarget(self, action: "didTap:", forControlEvents: .TouchUpInside)
     }
 	
 	// MARK: Private
@@ -95,7 +93,7 @@ class ShiftKey: UIButton {
 	
 	var timer: NSTimer!
 	
-	func didTap(sender: UIButton) {
+	override func didSelect() {
 		if potentiallyDoubleTappingShift == true {
 			updateShiftState(.Locked)
 			potentiallyDoubleTappingShift = false
@@ -115,17 +113,6 @@ class ShiftKey: UIButton {
 	
 	func failedToDoubleTapShift(timer: NSTimer) {
 		potentiallyDoubleTappingShift = false
-	}
-	
-	
-	// MARK: Hit Test and Point Inside
-	
-	override func hitTest(point: CGPoint, withEvent event: UIEvent!) -> UIView! {
-		return pointInside(point, withEvent: event) ? self : nil
-	}
-	
-	override func pointInside(point: CGPoint, withEvent event: UIEvent!) -> Bool {
-		return CGRectContainsPoint(self.bounds, point)
 	}
 
 }
