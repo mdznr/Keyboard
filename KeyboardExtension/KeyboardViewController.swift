@@ -114,13 +114,24 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		self.inputView.addSubview(keyboard)
 		
+		keyboard.edgeInsets = [
+			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
+			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
+			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
+			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+		]
+		
+		keyboard.rowHeights = [59, 55, 54, 48]
+		
+		var keys = KeyboardKey[][]()
+		
 		var row1Keys = KeyboardKey[]()
 		for letter in row1Letters {
 			let letterKey = LetterKey(letter: letter)
 			letterKey.capitalized = true
 			row1Keys.append(letterKey)
 		}
-		keyboard.row1Keys = row1Keys
+		keys.append(row1Keys)
 		
 		var row2Keys = KeyboardKey[]()
 		for letter in row2Letters {
@@ -128,7 +139,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 			letterKey.capitalized = true
 			row2Keys.append(letterKey)
 		}
-		keyboard.row2Keys = row2Keys
+		keys.append(row2Keys)
 		
 		var row3Keys = KeyboardKey[]()
 		for letter in row3Letters {
@@ -136,7 +147,9 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 			letterKey.capitalized = true
 			row3Keys.append(letterKey)
 		}
-		keyboard.row3Keys = row3Keys
+		keys.append(row3Keys)
+		
+		keyboard.keys = keys
 		
 		self.inputView.addSubview(nextKeyboardButton)
 		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(true)

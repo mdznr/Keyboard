@@ -25,81 +25,59 @@ class Keyboard: UIControl {
 	init(frame: CGRect)  {
 		super.init(frame: frame)
 		self.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-		setup()
 	}
 	
 	// MARK: Properties
 	
 	/// The number of rows on the keyboard.
-//	var numberOfRows = 4
+	var numberOfRows = 4
 	
 	/// An array of rows (an array) of keys.
-//	var keys = KeyboardKey[][]()
-	
-	var row1Keys: KeyboardKey[] = KeyboardKey[]() {
+	var keys: KeyboardKey[][] = KeyboardKey[][]() {
 		willSet {
-			row1.removeConstraints(row1.constraints())
-			for view in row1.subviews as UIView[] {
+			// Remove all layout constraints.
+			self.removeConstraints(self.constraints())
+			// Remove all the rows from the view.
+			for view in self.subviews as UIView[] {
 				view.removeFromSuperview()
 			}
 		}
 		didSet {
-			let metrics = [
-				"top": row1Insets.top,
-				"bottom": row1Insets.bottom
-			]
-			var horizontalVisualFormatString = "H:|-(\(row1Insets.left))-"
-			var row1KeysDictionary = Dictionary<String, UIView>()
-			for i in 0..row1Keys.count {
-				let view = row1Keys[i]
-				let dictionaryKey = "view" + i.description
-				row1KeysDictionary.updateValue(view, forKey: dictionaryKey)
-				row1.addSubview(view)
-				row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[view]-(bottom)-|", options: nil, metrics: metrics, views: ["view": view]))
-				horizontalVisualFormatString += "[\(dictionaryKey)(==view0)]"
+			var rows = Dictionary<String, UIView>()
+			var rowVisualFormatString = "V:|"
+			for x in 0..keys.count {
+				let rowOfKeys = keys[x]
+				let row = Keyboard.createRow()
+				let rowName = "row" + x.description
+				rows.updateValue(row, forKey: rowName)
+				self.addSubview(row)
+				self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[row]|", options: nil, metrics: nil, views: ["row": row]))
+				rowVisualFormatString += "[\(rowName)(\(rowHeights[x]))]"
+				
+				let metrics = ["top": edgeInsets[x].top, "bottom": edgeInsets[x].bottom]
+				var horizontalVisualFormatString = "H:|-(\(edgeInsets[x].left))-"
+				var views = Dictionary<String, UIView>()
+				for i in 0..rowOfKeys.count {
+					let view = rowOfKeys[i]
+					let viewName = "view" + i.description
+					views.updateValue(view, forKey: viewName)
+					row.addSubview(view)
+					row.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[view]-(bottom)-|", options: nil, metrics: metrics, views: ["view": view]))
+					horizontalVisualFormatString += "[\(viewName)(==view0)]"
+				}
+				horizontalVisualFormatString += "-(\(edgeInsets[x].right))-|"
+				row.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(horizontalVisualFormatString, options: nil, metrics: nil, views: views))
 			}
-			horizontalVisualFormatString += "-(\(row1Insets.right))-|"
-			row1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(horizontalVisualFormatString, options: nil, metrics: nil, views: row1KeysDictionary))
+			rowVisualFormatString += "|"
+			self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(rowVisualFormatString, options: nil, metrics: nil, views: rows))
 		}
 	}
-	var row2Keys: KeyboardKey[] = KeyboardKey[]()
-	var row3Keys: KeyboardKey[] = KeyboardKey[]()
-	var row4Keys: KeyboardKey[] = KeyboardKey[]()
 	
-	var row1Insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-	var row2Insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-	var row3Insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-	var row4Insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+	/// The edge insets for each row.
+	var edgeInsets = UIEdgeInsets[]()
 	
-	let row1 = Keyboard.createRow()
-	let row2 = Keyboard.createRow()
-	let row3 = Keyboard.createRow()
-	let row4 = Keyboard.createRow()
-	
-	// MARK: Setup
-	
-	func setup() {
-		// Rows
-		let rows = [
-			"row1": row1,
-			"row2": row2,
-			"row3": row3,
-			"row4": row4,
-		]
-		for (rowName, row) in rows {
-			self.addSubview(row)
-		}
-		let row1Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row1]|", options: nil, metrics: nil, views: rows)
-		self.addConstraints(row1Constraints)
-		let row2Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row2]|", options: nil, metrics: nil, views: rows)
-		self.addConstraints(row2Constraints)
-		let row3Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row3]|", options: nil, metrics: nil, views: rows)
-		self.addConstraints(row3Constraints)
-		let row4Constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[row4]|", options: nil, metrics: nil, views: rows)
-		self.addConstraints(row4Constraints)
-		let rowConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[row1(59)][row2(55)][row3(54)][row4(48)]|", options: nil, metrics: nil, views: rows)
-		self.addConstraints(rowConstraints)
-	}
+	/// The heights for each row.
+	var rowHeights = CGFloat[]()
 	
 	class func createRow() -> UIView {
 		let view = UIView()
