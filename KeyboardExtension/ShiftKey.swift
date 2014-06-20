@@ -12,14 +12,12 @@ class ShiftKey: MetaKey {
 	
 	// MARK: Public Properties
 	
-	var shiftState: KeyboardShiftState {
+	var shiftState: KeyboardShiftState = .Disabled {
 		didSet {
 			// Update appearance.
 			refreshAppearance()
 		}
 	}
-	
-	var shiftStateChangeHandler: (shitState: KeyboardShiftState) -> () = {shiftState in}
 	
 	// MARK: Initialization
 	
@@ -28,9 +26,6 @@ class ShiftKey: MetaKey {
 	}
 	
     init(frame: CGRect) {
-		// Disabled is the default state.
-		self.shiftState = .Disabled
-		
         super.init(frame: frame)
         // Initialization code
     }
@@ -57,22 +52,23 @@ class ShiftKey: MetaKey {
 	var doubleTapTimer: NSTimer!
 	
 	override func didSelect() {
-		super.didSelect()
 		if potentiallyDoubleTapping == true {
 			self.shiftState = .Locked
 			potentiallyDoubleTapping = false
 			doubleTapTimer?.invalidate()
 		} else {
 			switch shiftState {
-			case .Disabled:
-				self.shiftState = .Enabled
-			case .Enabled, .Locked:
-				self.shiftState = .Disabled
+				case .Disabled:
+					self.shiftState = .Enabled
+				case .Enabled, .Locked:
+					self.shiftState = .Disabled
 			}
 			potentiallyDoubleTapping = true
 			doubleTapTimer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)
 			NSRunLoop.currentRunLoop().addTimer(doubleTapTimer, forMode: NSDefaultRunLoopMode)
 		}
+		
+		super.didSelect()
 	}
 	
 	func failedToDoubleTapShift(timer: NSTimer) {
