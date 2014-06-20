@@ -41,7 +41,7 @@ class Keyboard: UIControl {
 		}
 		didSet {
 			var rows = Dictionary<String, UIView>()
-			var rowVisualFormatString = "V:|"
+			var previousView: UIView = self
 			for x in 0..keys.count {
 				let rowOfKeys = keys[x]
 				let row = Keyboard.createRow()
@@ -49,7 +49,10 @@ class Keyboard: UIControl {
 				rows.updateValue(row, forKey: rowName)
 				self.addSubview(row)
 				self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[row]|", options: nil, metrics: nil, views: ["row": row]))
-				rowVisualFormatString += "[\(rowName)(\(rowHeights[x]))]"
+				let attribute: NSLayoutAttribute = (x == 0) ? .Top : .Bottom
+				self.addConstraint(NSLayoutConstraint(item: row, attribute: .Top, relatedBy: .Equal, toItem: previousView, attribute: attribute, multiplier: 1, constant: 0))
+				previousView = row
+				self.addConstraint(NSLayoutConstraint(item: row, attribute: .Height, relatedBy: .Equal, toItem: row.superview, attribute: .Height, multiplier: rowHeights[x], constant: 0))
 				
 				let metrics = ["top": edgeInsets[x].top, "bottom": edgeInsets[x].bottom]
 				var horizontalVisualFormatString = "H:|-(\(edgeInsets[x].left))-"
@@ -78,8 +81,6 @@ class Keyboard: UIControl {
 					row.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(horizontalVisualFormatString, options: nil, metrics: nil, views: views))
 				}
 			}
-			rowVisualFormatString += "|"
-			self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(rowVisualFormatString, options: nil, metrics: nil, views: rows))
 		}
 	}
 	

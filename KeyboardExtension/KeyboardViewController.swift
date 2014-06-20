@@ -90,7 +90,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		self.inputView.addSubview(keyboard)
 		
-		keyboard.rowHeights = [59, 55, 54, 48]
+		keyboard.rowHeights = [59/216, 55/216, 54/216, 48/216]
 		
 		keyboard.edgeInsets = [
 			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
