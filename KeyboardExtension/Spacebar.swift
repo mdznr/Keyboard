@@ -20,7 +20,7 @@ class Spacebar: MetaKey {
 				self.horizontalLine.frame.size.height = 1
 			}
 			// Center the line vertically
-			self.horizontalLine.frame.origin.y = (self.bounds.size.height/2) - self.horizontalLine.frame.size.height/2
+			self.horizontalLine.frame.origin.y =  CGRectGetMidY(self.bounds) - (self.horizontalLine.frame.size.height/2)
 		}, completion: nil)
 	}
 	
@@ -34,7 +34,7 @@ class Spacebar: MetaKey {
         super.init(frame: frame)
         // Initialization code
 		
-		horizontalLine.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: 1)
+		horizontalLine.frame = CGRect(x: 0, y: CGRectGetMidY(self.bounds) - 0.5, width: self.bounds.size.width, height: 1)
 		self.addSubview(horizontalLine)
     }
 
