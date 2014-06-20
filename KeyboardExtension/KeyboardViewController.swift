@@ -43,43 +43,25 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
 	let shiftKey = ShiftKey()
 	
-	let deleteButton: UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.setImage(UIImage(named: "Delete"), forState: .Normal)
-		
-		return button
+	let deleteKey: MetaKey = {
+		let key = MetaKey()
+		key.imageView.image = UIImage(named: "Delete")
+		return key
 	}()
 	
-	let symbolKeyboardButton: UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.setImage(UIImage(named: "Symbols"), forState: .Normal)
-		
-		return button
+	let symbolKeyboardKey: MetaKey = {
+		let key = MetaKey()
+		key.imageView.image = UIImage(named: "Symbols")
+		return key
 	}()
 	
-	let nextKeyboardButton: UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.setImage(UIImage(named: "Globe"), forState: .Normal)
-		
-		return button
+	let nextKeyboardKey: MetaKey = {
+		let key = MetaKey()
+		key.imageView.image = UIImage(named: "Globe")
+		return key
 	}()
 	
-	let returnKey: UIButton = {
-		let button = UIButton.buttonWithType(.System) as UIButton
-		button.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-		button.font = UIFont.systemFontOfSize(16)
-		button.setTitle(UIReturnKeyType.Default.simpleDescription(), forState: .Normal)
-		
-		return button
-	}()
+	let returnKey = ReturnKey()
 	
 	let spacebar = Spacebar()
 	
@@ -88,12 +70,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
 	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
 	let row3Letters = ["Z","X","C","V","B","N","M"]
-	
-	/*
-	var row1Labels = Dictionary<String, UIView>()
-	var row2Labels = Dictionary<String, UIView>()
-	var row3Labels = Dictionary<String, UIView>()
-	*/
 	
 	// MARK: Initialization
 
@@ -119,7 +95,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		keyboard.edgeInsets = [
 			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
 			UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 7),
-			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
+			UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 7),
 			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		]
 		
@@ -142,11 +118,13 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		keys.append(row2Keys)
 		
 		var row3Keys = KeyboardKey[]()
+		row3Keys.append(shiftKey)
 		for letter in row3Letters {
 			let letterKey = LetterKey(letter: letter)
 			letterKey.capitalized = true
 			row3Keys.append(letterKey)
 		}
+		row3Keys.append(deleteKey)
 		keys.append(row3Keys)
 		
 		var row4Keys = KeyboardKey[]()
@@ -154,8 +132,9 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		keyboard.keys = keys
 		
+		let nextKeyboardButton = UIButton()
 		self.inputView.addSubview(nextKeyboardButton)
-		nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(true)
+		nextKeyboardButton.setImage(UIImage(named: "Globe"), forState: .Normal)
 		nextKeyboardButton.frame = CGRect(x: 45, y: 176, width: 30, height: 30)
 		nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
 		
@@ -299,7 +278,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	// MARK: -
 	
 	func updateAppearance() {
-		updateReturnKeyForType(self.returnKeyType())
+		returnKey.type = self.returnKeyType()
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
 //		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
@@ -308,11 +287,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 //		ShiftKey.appearance().disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
 //		ShiftKey.appearance().enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
-	}
-	
-	func updateReturnKeyForType(returnKeyType: UIReturnKeyType) {
-		let title = returnKeyType.simpleDescription()
-		returnKey.setTitle(title, forState: .Normal)
 	}
 	
 	func appropriatelyCasedString(string: String) -> String {

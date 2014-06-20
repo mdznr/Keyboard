@@ -8,21 +8,9 @@
 
 import UIKit
 
-class ShiftKey: KeyboardKey {
+class ShiftKey: MetaKey {
 	
 	// MARK: Public Properties
-	
-	var disabledTintColor: UIColor = UIColor.lightGrayColor() as UIColor {
-		didSet {
-			refreshAppearance()
-		}
-	}
-	
-	var enabledTintColor: UIColor = UIColor.blueColor() as UIColor {
-		didSet {
-			refreshAppearance()
-		}
-	}
 	
 	var shiftState: KeyboardShiftState {
 		didSet {
@@ -32,7 +20,6 @@ class ShiftKey: KeyboardKey {
 	}
 	
 	var shiftStateChangeHandler: (shitState: KeyboardShiftState) -> () = {shiftState in}
-	
 	
 	// MARK: Initialization
 	
@@ -46,41 +33,22 @@ class ShiftKey: KeyboardKey {
 		
         super.init(frame: frame)
         // Initialization code
-		
-		refreshAppearance()
-		
-		self.setTranslatesAutoresizingMaskIntoConstraints(false)
-		
-		self.addSubview(arrowImageView)
-		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[arrowImageView]|", options: nil, metrics: nil, views: ["arrowImageView": arrowImageView]))
-		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[arrowImageView]|", options: nil, metrics: nil, views: ["arrowImageView": arrowImageView]))
     }
-	
-	// MARK: Private
-	
-	// MARK: UI
-	
-	let arrowImageView: UIImageView = {
-		let view = UIImageView()
-		view.setTranslatesAutoresizingMaskIntoConstraints(false)
-		view.contentMode = .Center
-		return view
-	}()
-	
 	
 	// MARK: Toggling state
 	
-	func refreshAppearance() {
+	override func refreshAppearance() {
+		super.refreshAppearance()
 		switch shiftState {
 			case .Disabled:
-				arrowImageView.tintColor = disabledTintColor
-				arrowImageView.image = UIImage(named: "Shift Disabled")
+				imageView.tintColor = disabledTintColor
+				imageView.image = UIImage(named: "Shift Disabled")
 			case .Enabled:
-				arrowImageView.tintColor = enabledTintColor
-				arrowImageView.image = UIImage(named: "Shift Enabled")
+				imageView.tintColor = enabledTintColor
+				imageView.image = UIImage(named: "Shift Enabled")
 			case .Locked:
-				arrowImageView.tintColor = enabledTintColor
-				arrowImageView.image = UIImage(named: "Caps Lock")
+				imageView.tintColor = enabledTintColor
+				imageView.image = UIImage(named: "Caps Lock")
 		}
 	}
 	
@@ -89,15 +57,15 @@ class ShiftKey: KeyboardKey {
 		shiftStateChangeHandler(shitState: shiftState)
 	}
 	
-	var potentiallyDoubleTappingShift: Bool = false
+	var potentiallyDoubleTapping: Bool = false
 	
-	var timer: NSTimer!
+	var doubleTapTimer: NSTimer!
 	
 	override func didSelect() {
-		if potentiallyDoubleTappingShift == true {
+		if potentiallyDoubleTapping == true {
 			updateShiftState(.Locked)
-			potentiallyDoubleTappingShift = false
-			timer?.invalidate()
+			potentiallyDoubleTapping = false
+			doubleTapTimer?.invalidate()
 		} else {
 			switch shiftState {
 			case .Disabled:
@@ -105,14 +73,14 @@ class ShiftKey: KeyboardKey {
 			case .Enabled, .Locked:
 				updateShiftState(.Disabled)
 			}
-			potentiallyDoubleTappingShift = true
-			timer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)
-			NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+			potentiallyDoubleTapping = true
+			doubleTapTimer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)
+			NSRunLoop.currentRunLoop().addTimer(doubleTapTimer, forMode: NSDefaultRunLoopMode)
 		}
 	}
 	
 	func failedToDoubleTapShift(timer: NSTimer) {
-		potentiallyDoubleTappingShift = false
+		potentiallyDoubleTapping = false
 	}
 
 }

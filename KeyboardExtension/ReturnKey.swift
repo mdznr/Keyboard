@@ -28,16 +28,30 @@ extension UIReturnKeyType {
 	
 }
 
-class ReturnKey: KeyboardKey {
+class ReturnKey: MetaKey {
+	
+	var type: UIReturnKeyType = .Default {
+		didSet {
+			label.text = type.simpleDescription()
+		}
+	}
 	
 	init(frame: CGRect) {
 		super.init(frame: frame)
+		addSubview(label)
 	}
 	
-	let label = UILabel()
+	let label: UILabel = {
+		let label = UILabel()
+		label.font = UIFont.systemFontOfSize(16)
+		return label
+	}()
+	
+	let contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
 	
 	override func intrinsicContentSize() -> CGSize {
-		return label.intrinsicContentSize()
+		let labelSize = label.intrinsicContentSize()
+		return CGSize(width: contentEdgeInsets.left + labelSize.width + contentEdgeInsets.right, height: contentEdgeInsets.top + labelSize.height + contentEdgeInsets.bottom)
 	}
 
 }

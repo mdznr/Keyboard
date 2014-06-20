@@ -20,6 +20,7 @@
 		C99470101951484700674519 /* TextDocumentProxyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994700F1951484700674519 /* TextDocumentProxyHelper.swift */; };
 		C9A92874195363C300F02778 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A92873195363C300F02778 /* Keyboard.swift */; };
 		C9A928781953741500F02778 /* ReturnKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A928771953741500F02778 /* ReturnKey.swift */; };
+		C9B089721953A17B003EE674 /* MetaKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B089711953A17B003EE674 /* MetaKey.swift */; };
 		C9D18820194EBA62003739C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9D1881F194EBA62003739C1 /* Images.xcassets */; };
 		C9DC8674194FB3380014EAE9 /* Spacebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC8673194FB3380014EAE9 /* Spacebar.swift */; };
 		C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */; };
@@ -86,6 +87,7 @@
 		C994700F1951484700674519 /* TextDocumentProxyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDocumentProxyHelper.swift; sourceTree = "<group>"; };
 		C9A92873195363C300F02778 /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		C9A928771953741500F02778 /* ReturnKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReturnKey.swift; sourceTree = "<group>"; };
+		C9B089711953A17B003EE674 /* MetaKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaKey.swift; sourceTree = "<group>"; };
 		C9D1881F194EBA62003739C1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9DC8673194FB3380014EAE9 /* Spacebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spacebar.swift; sourceTree = "<group>"; };
 		C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Traits.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				C960CCDA19516EDE006788D2 /* Typer.swift */,
 				C9A92873195363C300F02778 /* Keyboard.swift */,
 				C9DF280F194EE3F500BDFCB1 /* LetterKey.swift */,
+				C9B089711953A17B003EE674 /* MetaKey.swift */,
 				C9A928771953741500F02778 /* ReturnKey.swift */,
 				C98CA732194FFC4B0099B9F7 /* ShiftKey.swift */,
 				C9DC8673194FB3380014EAE9 /* Spacebar.swift */,
@@ -361,6 +364,7 @@
 				C98CA733194FFC4B0099B9F7 /* ShiftKey.swift in Sources */,
 				C9DC8674194FB3380014EAE9 /* Spacebar.swift in Sources */,
 				C94849F0194E967300B0B0A2 /* StringExtensions.swift in Sources */,
+				C9B089721953A17B003EE674 /* MetaKey.swift in Sources */,
 				C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */,
 				C9DF2810194EE3F500BDFCB1 /* LetterKey.swift in Sources */,
 				C9A928781953741500F02778 /* ReturnKey.swift in Sources */,
