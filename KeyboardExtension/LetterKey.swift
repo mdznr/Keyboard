@@ -20,13 +20,16 @@ class LetterKey: KeyboardKey {
 		set {
 			let text = newValue.substringToIndex(1)
 			label.text = capitalized ? text.uppercaseString : text.lowercaseString
+			keyDownLabel.text = capitalized ? text.uppercaseString : text.lowercaseString
 		}
 	}
 	
 	/// A Boolean value representing whether or not the letter is capitalized
 	var capitalized: Bool = false {
 		didSet {
-			label.text = capitalized ? label.text.uppercaseString : label.text.lowercaseString
+			let text = label.text
+			label.text = capitalized ? text.uppercaseString : text.lowercaseString
+			keyDownLabel.text = capitalized ? text.uppercaseString : text.lowercaseString
 		}
 	}
 	
@@ -36,13 +39,15 @@ class LetterKey: KeyboardKey {
 		}
 		set {
 			self.label.textColor = textColor
+			self.keyDownLabel.textColor = textColor
 		}
 	}
 	
 	/// A change in appearance when highlighted is set.
 	override var highlighted: Bool {
 		didSet {
-			self.backgroundColor = highlighted ? UIColor.redColor() : UIColor.clearColor()
+			self.keyDownView.hidden = !highlighted
+//			self.backgroundColor = highlighted ? UIColor.redColor() : UIColor.clearColor()
 		}
 	}
 	
@@ -68,8 +73,40 @@ class LetterKey: KeyboardKey {
 		label.textAlignment = .Center
 		label.font = KeyboardAppearance.keyboardLetterFont()
 		label.textColor = KeyboardAppearance.primaryButtonColorForAppearance(.Default)
+		
+		keyDownView.addSubview(keyDownLabel)
+		keyDownView.hidden = true
+		self.addSubview(keyDownView)
 	}
 	
 	let label = UILabel()
+	
+	let keyDownView: UIView = {
+		let view = UIView(frame: CGRect(x: -14, y: -57, width: 62, height: 101))
+		
+		let iv = UIImageView(frame: CGRect(x: 0, y: 0, width: 62, height: 101))
+		iv.image = UIImage(named: "LetterKeyDown")
+		view.addSubview(iv)
+		
+		return view
+	}()
+	
+	let keyDownLabel: UILabel = {
+		let label = UILabel(frame: CGRect(x: 0, y: 12, width: 62, height: 43))
+		label.textAlignment = .Center
+		label.font = KeyboardAppearance.keyboardLetterFont().fontWithSize(36)
+		label.textColor = KeyboardAppearance.primaryButtonColorForAppearance(.Default)
+		return label
+	}()
+	
+	override func hitTest(point: CGPoint, withEvent event: UIEvent!) -> UIView! {
+		return pointInside(point, withEvent: event) ? self : nil
+	}
+	
+	override func pointInside(point: CGPoint, withEvent event: UIEvent!) -> Bool {
+//		var frameAboutOrigin = self.frame
+//		frameAboutOrigin.origin = CGPoint(x: 0, y: 0)
+		return CGRectContainsPoint(self.label.frame, point)
+	}
 	
 }
