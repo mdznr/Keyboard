@@ -24,7 +24,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	}
 	
 	func shouldUpdateShiftState(shiftState: KeyboardShiftState) {
-		// TODO: Update the UI to reflect it.
 		self.shiftState = shiftState
 	}
 	
@@ -32,12 +31,22 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		didSet {
 			typer.shiftState = shiftState
 			shiftKey.shiftState = shiftState
+			if shiftState != oldValue {
+				let capitalized = shiftState != .Disabled
+				for letterKey in letterKeys {
+					letterKey.capitalized = capitalized
+				}
+			}
 		}
 	}
 	
 	// MARK: Keyboard
 	
 	let keyboard = Keyboard()
+	
+	// MARK: Letter Keys
+	
+	var letterKeys = LetterKey[]()
 	
 	// MARK: Special Keys
 	
@@ -64,12 +73,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	let returnKey = ReturnKey()
 	
 	let spacebar = Spacebar()
-	
-	// MARK: Lettered Keys
-	
-	let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
-	let row2Letters = ["A","S","D","F","G","H","J","K","L"]
-	let row3Letters = ["Z","X","C","V","B","N","M"]
 	
 	// MARK: Initialization
 
@@ -101,25 +104,23 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		var keys = KeyboardKey[][]()
 		
+		let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
+		let row2Letters = ["A","S","D","F","G","H","J","K","L"]
+		let row3Letters = ["Z","X","C","V","B","N","M"]
+		
 		var row1Keys = KeyboardKey[]()
 		for letter in row1Letters {
-			let letterKey = LetterKey(letter: letter)
-			letterKey.action = {
-				self.typer.typeString(letterKey.letter)
-			}
-			letterKey.capitalized = true
+			let letterKey = self.letterKeyWithLetter(letter)
 			row1Keys.append(letterKey)
+			letterKeys.append(letterKey)
 		}
 		keys.append(row1Keys)
 		
 		var row2Keys = KeyboardKey[]()
 		for letter in row2Letters {
-			let letterKey = LetterKey(letter: letter)
-			letterKey.action = {
-				self.typer.typeString(letterKey.letter)
-			}
-			letterKey.capitalized = true
+			let letterKey = self.letterKeyWithLetter(letter)
 			row2Keys.append(letterKey)
+			letterKeys.append(letterKey)
 		}
 		keys.append(row2Keys)
 		
@@ -129,12 +130,9 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 			self.shiftState = self.shiftKey.shiftState
 		}
 		for letter in row3Letters {
-			let letterKey = LetterKey(letter: letter)
-			letterKey.action = {
-				self.typer.typeString(letterKey.letter)
-			}
-			letterKey.capitalized = true
+			let letterKey = self.letterKeyWithLetter(letter)
 			row3Keys.append(letterKey)
+			letterKeys.append(letterKey)
 		}
 		row3Keys.append(deleteKey)
 		deleteKey.action = {
@@ -180,6 +178,14 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		swipeDownWithTwoFingers.numberOfTouchesRequired = 2
 		self.inputView.addGestureRecognizer(swipeDownWithTwoFingers)
     }
+	
+	func letterKeyWithLetter(letter: String) -> LetterKey {
+		let letterKey = LetterKey(letter: letter)
+		letterKey.action = {
+			self.typer.typeString(letterKey.letter)
+		}
+		return letterKey
+	}
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
