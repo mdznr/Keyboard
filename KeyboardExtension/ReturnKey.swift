@@ -33,21 +33,25 @@ class ReturnKey: MetaKey {
 	var type: UIReturnKeyType = .Default {
 		didSet {
 			label.text = type.simpleDescription()
+			invalidateIntrinsicContentSize()
 		}
 	}
 	
 	init(frame: CGRect) {
 		super.init(frame: frame)
-		addSubview(label)
+		self.addSubview(label)
+		label.frame = self.bounds
 	}
 	
 	let label: UILabel = {
 		let label = UILabel()
+		label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+		label.textAlignment = .Center
 		label.font = UIFont.systemFontOfSize(16)
 		return label
 	}()
 	
-	let contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+	let contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 14)
 	
 	override func intrinsicContentSize() -> CGSize {
 		let labelSize = label.intrinsicContentSize()

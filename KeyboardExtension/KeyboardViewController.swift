@@ -128,6 +128,10 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		keys.append(row3Keys)
 		
 		var row4Keys = KeyboardKey[]()
+		row4Keys.append(symbolKeyboardKey)
+		row4Keys.append(nextKeyboardKey)
+		row4Keys.append(spacebar)
+		row4Keys.append(returnKey)
 		keys.append(row4Keys)
 		
 		keyboard.keys = keys

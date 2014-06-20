@@ -58,5 +58,10 @@ class MetaKey: KeyboardKey {
 		view.contentMode = .Center
 		return view
 	}()
+	
+	override func intrinsicContentSize() -> CGSize {
+		let contentSize = imageView.intrinsicContentSize()
+		return CGSize(width: 5 + contentSize.width + 5, height: 5 + contentSize.height + 5)
+	}
 
 }

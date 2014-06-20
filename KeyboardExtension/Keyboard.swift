@@ -54,13 +54,24 @@ class Keyboard: UIControl {
 				let metrics = ["top": edgeInsets[x].top, "bottom": edgeInsets[x].bottom]
 				var horizontalVisualFormatString = "H:|-(\(edgeInsets[x].left))-"
 				var views = Dictionary<String, UIView>()
+				var firstEquallySizedView = -1
 				for i in 0..rowOfKeys.count {
 					let view = rowOfKeys[i]
 					let viewName = "view" + i.description
 					views.updateValue(view, forKey: viewName)
 					row.addSubview(view)
 					row.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[view]-(bottom)-|", options: nil, metrics: metrics, views: ["view": view]))
-					horizontalVisualFormatString += "[\(viewName)(==view0)]"
+					let contentSize = view.intrinsicContentSize()
+					if contentSize.width == UIViewNoIntrinsicMetric {
+						if firstEquallySizedView < 0 {
+							firstEquallySizedView = i
+							horizontalVisualFormatString += "[\(viewName)]"
+						} else {
+							horizontalVisualFormatString += "[\(viewName)(==view\(firstEquallySizedView.description))]"
+						}
+					} else {
+						horizontalVisualFormatString += "[\(viewName)]"
+					}
 				}
 				horizontalVisualFormatString += "-(\(edgeInsets[x].right))-|"
 				if views.count > 0 {
