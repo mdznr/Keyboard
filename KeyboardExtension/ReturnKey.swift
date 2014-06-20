@@ -39,6 +39,9 @@ class ReturnKey: MetaKey {
 	
 	init(frame: CGRect) {
 		super.init(frame: frame)
+		
+		contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 14)
+		
 		self.addSubview(label)
 		label.frame = self.bounds
 	}
@@ -50,8 +53,6 @@ class ReturnKey: MetaKey {
 		label.font = UIFont.systemFontOfSize(16)
 		return label
 	}()
-	
-	let contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 14)
 	
 	override func intrinsicContentSize() -> CGSize {
 		let labelSize = label.intrinsicContentSize()

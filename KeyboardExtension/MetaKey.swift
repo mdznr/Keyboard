@@ -59,9 +59,11 @@ class MetaKey: KeyboardKey {
 		return view
 	}()
 	
+	var contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+	
 	override func intrinsicContentSize() -> CGSize {
 		let contentSize = imageView.intrinsicContentSize()
-		return CGSize(width: 5 + contentSize.width + 5, height: 5 + contentSize.height + 5)
+		return CGSize(width: contentEdgeInsets.left + contentSize.width + contentEdgeInsets.right, height: contentEdgeInsets.top + contentSize.height + contentEdgeInsets.bottom)
 	}
 
 }

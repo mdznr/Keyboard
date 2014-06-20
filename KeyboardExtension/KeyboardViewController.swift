@@ -95,8 +95,8 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		keyboard.edgeInsets = [
 			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
 			UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 7),
-			UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 7),
-			UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+			UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1),
+			UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
 		]
 		
 		var keys = KeyboardKey[][]()
