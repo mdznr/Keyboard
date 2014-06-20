@@ -35,7 +35,7 @@ class LetterKey: KeyboardKey {
 			return self.label.textColor
 		}
 		set {
-			self.label.textColor = tintColor
+			self.label.textColor = textColor
 		}
 	}
 	

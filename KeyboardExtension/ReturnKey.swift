@@ -12,17 +12,17 @@ extension UIReturnKeyType {
 	
 	func simpleDescription() -> String {
 		switch self {
-		case Default:       return "return"
-		case Go:            return "Go"
-		case Google:        return "Google"
-		case Join:          return "Join"
-		case Next:          return "Next"
-		case Route:         return "Route"
-		case Search:        return "Search"
-		case Send:          return "Send"
-		case Yahoo:         return "Yahoo"
-		case Done:          return "Done"
-		case EmergencyCall: return "Emergency Call"
+			case Default:       return "return"
+			case Go:            return "Go"
+			case Google:        return "Google"
+			case Join:          return "Join"
+			case Next:          return "Next"
+			case Route:         return "Route"
+			case Search:        return "Search"
+			case Send:          return "Send"
+			case Yahoo:         return "Yahoo"
+			case Done:          return "Done"
+			case EmergencyCall: return "Emergency Call"
 		}
 	}
 	
@@ -35,6 +35,11 @@ class ReturnKey: MetaKey {
 			label.text = type.simpleDescription()
 			invalidateIntrinsicContentSize()
 		}
+	}
+	
+	override func refreshAppearance() {
+		super.refreshAppearance()
+		label.textColor = highlighted ? enabledTintColor : disabledTintColor
 	}
 	
 	init(frame: CGRect) {
