@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C94849F0194E967300B0B0A2 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94849EF194E967300B0B0A2 /* StringExtensions.swift */; };
-		C9496AD7193DB1080019E371 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9496AD6193DB1080019E371 /* main.m */; };
-		C9496ADA193DB1080019E371 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9496AD9193DB1080019E371 /* AppDelegate.m */; };
 		C9496AE0193DB1080019E371 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9496ADE193DB1080019E371 /* Main.storyboard */; };
 		C9496AE2193DB1080019E371 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9496AE1193DB1080019E371 /* Images.xcassets */; };
 		C9496AEE193DB1080019E371 /* KeyboardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9496AED193DB1080019E371 /* KeyboardTests.m */; };
@@ -21,6 +19,7 @@
 		C9A92874195363C300F02778 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A92873195363C300F02778 /* Keyboard.swift */; };
 		C9A928781953741500F02778 /* ReturnKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A928771953741500F02778 /* ReturnKey.swift */; };
 		C9B089721953A17B003EE674 /* MetaKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B089711953A17B003EE674 /* MetaKey.swift */; };
+		C9B089741954E4B6003EE674 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B089731954E4B6003EE674 /* AppDelegate.swift */; };
 		C9D18820194EBA62003739C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9D1881F194EBA62003739C1 /* Images.xcassets */; };
 		C9DC8674194FB3380014EAE9 /* Spacebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC8673194FB3380014EAE9 /* Spacebar.swift */; };
 		C9DEE71A194E6A98005B6296 /* KeyboardViewController_Traits.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */; };
@@ -71,9 +70,6 @@
 		C94849EF194E967300B0B0A2 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		C9496AD1193DB1080019E371 /* Keyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Keyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9496AD5193DB1080019E371 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9496AD6193DB1080019E371 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C9496AD8193DB1080019E371 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C9496AD9193DB1080019E371 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C9496ADF193DB1080019E371 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9496AE1193DB1080019E371 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9496AE7193DB1080019E371 /* KeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,12 +84,12 @@
 		C9A92873195363C300F02778 /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		C9A928771953741500F02778 /* ReturnKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReturnKey.swift; sourceTree = "<group>"; };
 		C9B089711953A17B003EE674 /* MetaKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaKey.swift; sourceTree = "<group>"; };
+		C9B089731954E4B6003EE674 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9D1881F194EBA62003739C1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9DC8673194FB3380014EAE9 /* Spacebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spacebar.swift; sourceTree = "<group>"; };
 		C9DEE719194E6A98005B6296 /* KeyboardViewController_Traits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController_Traits.swift; sourceTree = "<group>"; };
 		C9DEE71B194E7372005B6296 /* KeyboardAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAppearance.swift; sourceTree = "<group>"; };
 		C9DF280F194EE3F500BDFCB1 /* LetterKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterKey.swift; sourceTree = "<group>"; };
-		C9E39E47194EDC3B00FB7C8A /* Keyboard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Keyboard-Bridging-Header.h"; sourceTree = "<group>"; };
 		C9E39E48194EDC3B00FB7C8A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,13 +141,11 @@
 		C9496AD3193DB1080019E371 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				C9496AD8193DB1080019E371 /* AppDelegate.h */,
-				C9496AD9193DB1080019E371 /* AppDelegate.m */,
+				C9B089731954E4B6003EE674 /* AppDelegate.swift */,
 				C9E39E48194EDC3B00FB7C8A /* ViewController.swift */,
 				C9496ADE193DB1080019E371 /* Main.storyboard */,
 				C9496AE1193DB1080019E371 /* Images.xcassets */,
 				C9496AD4193DB1080019E371 /* Supporting Files */,
-				C9E39E47194EDC3B00FB7C8A /* Keyboard-Bridging-Header.h */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -160,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				C9496AD5193DB1080019E371 /* Info.plist */,
-				C9496AD6193DB1080019E371 /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -342,9 +335,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9496ADA193DB1080019E371 /* AppDelegate.m in Sources */,
+				C9B089741954E4B6003EE674 /* AppDelegate.swift in Sources */,
 				C9E39E49194EDC3B00FB7C8A /* ViewController.swift in Sources */,
-				C9496AD7193DB1080019E371 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,7 +486,7 @@
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Keyboard/Keyboard-Bridging-Header.h";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -509,7 +501,7 @@
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Keyboard/Keyboard-Bridging-Header.h";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
