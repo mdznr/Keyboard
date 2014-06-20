@@ -104,6 +104,9 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		var row1Keys = KeyboardKey[]()
 		for letter in row1Letters {
 			let letterKey = LetterKey(letter: letter)
+			letterKey.action = {
+				self.typer.typeString(letterKey.letter)
+			}
 			letterKey.capitalized = true
 			row1Keys.append(letterKey)
 		}
@@ -112,6 +115,9 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		var row2Keys = KeyboardKey[]()
 		for letter in row2Letters {
 			let letterKey = LetterKey(letter: letter)
+			letterKey.action = {
+				self.typer.typeString(letterKey.letter)
+			}
 			letterKey.capitalized = true
 			row2Keys.append(letterKey)
 		}
@@ -119,28 +125,42 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		
 		var row3Keys = KeyboardKey[]()
 		row3Keys.append(shiftKey)
+		shiftKey.action = {
+			self.shiftState = self.shiftKey.shiftState
+		}
 		for letter in row3Letters {
 			let letterKey = LetterKey(letter: letter)
+			letterKey.action = {
+				self.typer.typeString(letterKey.letter)
+			}
 			letterKey.capitalized = true
 			row3Keys.append(letterKey)
 		}
 		row3Keys.append(deleteKey)
+		deleteKey.action = {
+			self.typer.deleteCharacter()
+		}
 		keys.append(row3Keys)
 		
 		var row4Keys = KeyboardKey[]()
 		row4Keys.append(symbolKeyboardKey)
+		symbolKeyboardKey.action = {
+		}
 		row4Keys.append(nextKeyboardKey)
+		nextKeyboardKey.action = {
+			self.advanceToNextInputMode()
+		}
 		row4Keys.append(spacebar)
+		spacebar.action = {
+			self.typer.typeString(" ")
+		}
 		row4Keys.append(returnKey)
+		returnKey.action = {
+			self.createNewline()
+		}
 		keys.append(row4Keys)
 		
 		keyboard.keys = keys
-		
-		let nextKeyboardButton = UIButton()
-		self.inputView.addSubview(nextKeyboardButton)
-		nextKeyboardButton.setImage(UIImage(named: "Globe"), forState: .Normal)
-		nextKeyboardButton.frame = CGRect(x: 45, y: 176, width: 30, height: 30)
-		nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
 		
 		// Gestures
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: "didSwipeLeft:")
@@ -159,18 +179,10 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		swipeDownWithTwoFingers.direction = .Down
 		swipeDownWithTwoFingers.numberOfTouchesRequired = 2
 		self.inputView.addGestureRecognizer(swipeDownWithTwoFingers)
-		
-		let press = UILongPressGestureRecognizer(target: self, action: "didPress:")
-		press.minimumPressDuration = 0
-//		self.inputView.addGestureRecognizer(press)
-		
-		let tap = UITapGestureRecognizer(target: self, action: "didTap:")
-		self.inputView.addGestureRecognizer(tap)
     }
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		self.updateAppearance()
 	}
 
     override func didReceiveMemoryWarning() {
@@ -222,40 +234,12 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 	}
 	
-	// MARK: Gestures
-	
 	func tappedKeyWithCharacter(character: String) {
 		let casedString = appropriatelyCasedString(character)
 		typer.typeString(casedString)
 	}
 	
-	func didTap(sender: UIGestureRecognizer) {
-		if sender.state == .Ended {
-			let view = sender.view
-			let loc = sender.locationInView(view)
-			let subview = view.hitTest(loc, withEvent: nil)
-			if let subview = subview as? LetterKey {
-				tappedKeyWithCharacter(subview.letter)
-			} else if let subview = subview as? Spacebar {
-				tappedKeyWithCharacter(" ")
-			}
-		}
-	}
-	
-	func didPress(sender: UIGestureRecognizer) {
-		switch sender.state {
-			case .Began:
-				break
-			case .Changed:
-				break
-			case .Ended:
-				break
-			case .Cancelled:
-				fallthrough
-			default:
-				break
-		}
-	}
+	// MARK: Gestures
 	
 	/// TODO: Fix this once `documentContextBeforeInput` stops always returning nil.
 	/// Did a swipe left gesture. Delete until previous chunk of whitespace.
@@ -295,13 +279,5 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	/// Create a newline or act as return
 	func createNewline() {
 		typer.typeString("\n")
-	}
-	
-	func returnKeyPressed(sender: UIButton) {
-		createNewline()
-	}
-	
-	func deleteKeyPressed(sender: UIButton) {
-		typer.deleteCharacter()
 	}
 }

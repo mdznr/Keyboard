@@ -25,6 +25,8 @@ class Keyboard: UIControl {
 	init(frame: CGRect)  {
 		super.init(frame: frame)
 		self.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+		
+		self.multipleTouchEnabled = true
 	}
 	
 	// MARK: Properties
@@ -107,6 +109,58 @@ class Keyboard: UIControl {
 		return view
 	}
 	
+	
+	// MARK: Gesture handling
+	
+	var touchesToViews = Dictionary<UITouch, UIView>()
+	
+	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+		for touch in touches.allObjects as UITouch[] {
+			let view = self.hitTest(touch.locationInView(self), withEvent: event)
+			touchesToViews[touch] = view
+			if let view = view as? KeyboardKey {
+				view.highlighted = true
+			}
+		}
+	}
+	
+	override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!)  {
+		for touch in touches.allObjects as UITouch[] {
+			let view = self.hitTest(touch.locationInView(self), withEvent: event)
+			let previousView = touchesToViews[touch]
+			if view != previousView {
+				if let previousView = previousView as? KeyboardKey {
+					previousView.highlighted = false
+				}
+				touchesToViews[touch] = view
+				if let view = view as? KeyboardKey {
+					view.highlighted = true
+				}
+			}
+		}
+	}
+	
+	override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
+		for touch in touches.allObjects as UITouch[] {
+			let view = touchesToViews[touch]
+			if let view = view as? KeyboardKey {
+				view.highlighted = false
+				view.didSelect()
+			}
+			touchesToViews.removeValueForKey(touch)
+		}
+	}
+	
+	override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
+		for touch in touches.allObjects as UITouch[] {
+			let view = touchesToViews[touch]
+			if let view = view as? KeyboardKey {
+				view.highlighted = false
+			}
+			touchesToViews.removeValueForKey(touch)
+		}
+	}
+	
 }
 
 class KeyboardKey: UIView {
@@ -114,12 +168,17 @@ class KeyboardKey: UIView {
 	/// A Boolean value represeting whether the key is highlighted (a touch is inside).
 	var highlighted: Bool = false
 	
-	/// Called when a key has been selected.
-	func didSelect() {}
+	// What to do when this is selected.
+	var action: () -> () = {}
 	
 	init(frame: CGRect) {
 		super.init(frame: frame)
 		self.setTranslatesAutoresizingMaskIntoConstraints(false)
+	}
+	
+	/// Called when a key has been selected. Subclasses can use this to present differently. Must call super!
+	func didSelect() {
+		action()
 	}
 	
 }

@@ -52,26 +52,22 @@ class ShiftKey: MetaKey {
 		}
 	}
 	
-	/// Use this to suggest a change in shiftState
-	func updateShiftState(shiftState: KeyboardShiftState) {
-		shiftStateChangeHandler(shitState: shiftState)
-	}
-	
 	var potentiallyDoubleTapping: Bool = false
 	
 	var doubleTapTimer: NSTimer!
 	
 	override func didSelect() {
+		super.didSelect()
 		if potentiallyDoubleTapping == true {
-			updateShiftState(.Locked)
+			self.shiftState = .Locked
 			potentiallyDoubleTapping = false
 			doubleTapTimer?.invalidate()
 		} else {
 			switch shiftState {
 			case .Disabled:
-				updateShiftState(.Enabled)
+				self.shiftState = .Enabled
 			case .Enabled, .Locked:
-				updateShiftState(.Disabled)
+				self.shiftState = .Disabled
 			}
 			potentiallyDoubleTapping = true
 			doubleTapTimer = NSTimer(timeInterval: 0.3, target: self, selector: "failedToDoubleTapShift:", userInfo: nil, repeats: false)

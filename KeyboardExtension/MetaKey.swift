@@ -26,9 +26,6 @@ class MetaKey: KeyboardKey {
 		imageView.tintColor = highlighted ? enabledTintColor : disabledTintColor
 	}
 	
-	// What to do when this is selected.
-	var action: () -> () = {}
-	
 	// MARK: Initialization
 	
 	convenience init() {
@@ -46,10 +43,6 @@ class MetaKey: KeyboardKey {
 		self.addSubview(imageView)
 		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: nil, metrics: nil, views: ["imageView": imageView]))
 		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: nil, metrics: nil, views: ["imageView": imageView]))
-	}
-	
-	override func didSelect() {
-		action()
 	}
 	
 	let imageView: UIImageView = {
