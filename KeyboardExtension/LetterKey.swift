@@ -18,18 +18,19 @@ class LetterKey: KeyboardKey {
 			return capitalized ? text.uppercaseString : text.lowercaseString
 		}
 		set {
-			let text = newValue.substringToIndex(1)
-			label.text = capitalized ? text.uppercaseString : text.lowercaseString
-			keyDownLabel.text = capitalized ? text.uppercaseString : text.lowercaseString
+			let letter = newValue.substringToIndex(1)
+			let text = capitalized ? letter.uppercaseString : letter.lowercaseString
+			label.text = text
+			keyDownLabel.text = text
 		}
 	}
 	
 	/// A Boolean value representing whether or not the letter is capitalized
 	var capitalized: Bool = false {
 		didSet {
-			let text = label.text
-			label.text = capitalized ? text.uppercaseString : text.lowercaseString
-			keyDownLabel.text = capitalized ? text.uppercaseString : text.lowercaseString
+			let text = capitalized ? label.text.uppercaseString : label.text.lowercaseString
+			label.text = text
+			keyDownLabel.text = text
 		}
 	}
 	
