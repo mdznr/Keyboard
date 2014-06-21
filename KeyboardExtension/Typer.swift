@@ -78,6 +78,16 @@ class Typer: NSObject {
 	
 	// MARK: Public Functions
 	
+	/// Type a string using the appropriate case given by the shift state.
+	/// @discussion This is particularly useful when typing single characters.
+	func typeAutocapitalizedString(string: String) {
+		textualContext.insertText(appropriatelyCasedString(string))
+		
+		refreshShiftState()
+	}
+	
+	/// Type a string regardless of the shift state.
+	/// @discussion This is particularly useful when needing to insert a whole word.
 	func typeString(string: String) {
 		textualContext.insertText(string)
 		
@@ -145,6 +155,15 @@ class Typer: NSObject {
 		
 		// Suggest an update to the shift state.
 		updateShiftState(internalShiftState)
+	}
+	
+	func appropriatelyCasedString(string: String) -> String {
+		switch shiftState {
+			case .Locked, .Enabled:
+				return string.uppercaseString
+			case .Disabled:
+				return string.lowercaseString
+		}
 	}
 	
 }
