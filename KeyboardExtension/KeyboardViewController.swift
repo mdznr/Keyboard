@@ -240,11 +240,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 	}
 	
-	func tappedKeyWithCharacter(character: String) {
-		let casedString = appropriatelyCasedString(character)
-		typer.typeString(casedString)
-	}
-	
 	// MARK: Gestures
 	
 	/// TODO: Fix this once `documentContextBeforeInput` stops always returning nil.
