@@ -182,7 +182,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	func letterKeyWithLetter(letter: String) -> LetterKey {
 		let letterKey = LetterKey(letter: letter)
 		letterKey.action = {
-			self.typer.typeString(letterKey.letter)
+			self.typer.typeAutocapitalizedString(letterKey.letter)
 		}
 		return letterKey
 	}
@@ -229,15 +229,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		ReturnKey.appearance().disabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
 		ReturnKey.appearance().enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance).colorWithAlphaComponent(0.7)
 		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
-	}
-	
-	func appropriatelyCasedString(string: String) -> String {
-		switch shiftState {
-			case .Locked, .Enabled:
-				return string.uppercaseString
-			case .Disabled:
-				return string.lowercaseString
-		}
 	}
 	
 	// MARK: Gestures
