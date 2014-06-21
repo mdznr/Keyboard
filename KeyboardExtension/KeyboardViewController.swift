@@ -232,7 +232,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	}
 	
 	func appropriatelyCasedString(string: String) -> String {
-		switch shiftKey.shiftState {
+		switch shiftState {
 			case .Locked, .Enabled:
 				return string.uppercaseString
 			case .Disabled:
