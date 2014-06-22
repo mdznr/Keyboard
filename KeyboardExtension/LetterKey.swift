@@ -15,22 +15,25 @@ class LetterKey: KeyboardKey {
 	var letter: NSString {
 		get {
 			let text = label.text
-			return capitalized ? text.uppercaseString : text.lowercaseString
+//			return capitalized ? text.uppercaseString : text.lowercaseString
+			return text
 		}
 		set {
 			let letter = newValue.substringToIndex(1)
-			let text = capitalized ? letter.uppercaseString : letter.lowercaseString
-			label.text = text
-			keyDownLabel.text = text
+			label.text = letter
+			keyDownLabel.text = letter
+//			let text = capitalized ? letter.uppercaseString : letter.lowercaseString
+//			label.text = text
+//			keyDownLabel.text = text
 		}
 	}
 	
 	/// A Boolean value representing whether or not the letter is capitalized
 	var capitalized: Bool = false {
 		didSet {
-			let text = capitalized ? label.text.uppercaseString : label.text.lowercaseString
-			label.text = text
-			keyDownLabel.text = text
+//			let text = capitalized ? label.text.uppercaseString : label.text.lowercaseString
+//			label.text = text
+//			keyDownLabel.text = text
 		}
 	}
 	
@@ -48,7 +51,6 @@ class LetterKey: KeyboardKey {
 	override var highlighted: Bool {
 		didSet {
 			self.keyDownView.hidden = !highlighted
-//			self.backgroundColor = highlighted ? UIColor.redColor() : UIColor.clearColor()
 		}
 	}
 	
