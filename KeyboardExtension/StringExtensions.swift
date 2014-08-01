@@ -12,7 +12,7 @@ extension String {
 	
 	func isFirstLetterCapitalized() -> Bool {
 		// Get the first character as a string.
-		let firstLetter = self.substringToIndex(1)
+		let firstLetter = self.substringToIndex(self.startIndex)
 		// See if the uppercase version of the string is the same.
 		return !firstLetter.isEmpty &&
 			    firstLetter == firstLetter.uppercaseString &&
@@ -76,8 +76,10 @@ extension String {
 			
 			// ORIGINAL REGEX: ^.*( |/|—)$
 			let match = self.rangeOfString("^.*( |/|—)$", options: .RegularExpressionSearch)
-			if !match.isEmpty {
-				return true
+			if let match = match {
+				if !match.isEmpty {
+					return true
+				}
 			}
 			
 			return false
@@ -92,8 +94,10 @@ extension String {
 			
 			// ORIGINAL REGEX: ^.*[\.\!\?][")]?\s+$
 			let match = self.rangeOfString("^.*[\\.\\!\\?][\")]?\\s+$", options: .RegularExpressionSearch)
-			if !match.isEmpty {
-				return true
+			if let match = match {
+				if !match.isEmpty {
+					return true
+				}
 			}
 			
 			return false

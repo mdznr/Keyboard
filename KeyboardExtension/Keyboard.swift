@@ -32,19 +32,19 @@ class Keyboard: UIControl {
 	// MARK: Properties
 	
 	/// An array of rows (an array) of keys.
-	var keys: KeyboardKey[][] = KeyboardKey[][]() {
+	var keys: [[KeyboardKey]] = [[KeyboardKey]]() {
 		willSet {
 			// Remove all layout constraints.
 			self.removeConstraints(self.constraints())
 			// Remove all the rows from the view.
-			for view in self.subviews as UIView[] {
+			for view in self.subviews as [UIView] {
 				view.removeFromSuperview()
 			}
 		}
 		didSet {
 			var rows = Dictionary<String, UIView>()
 			var previousView: UIView = self
-			for x in 0..keys.count {
+			for x in 0..<keys.count {
 				let rowOfKeys = keys[x]
 				let row = Keyboard.createRow()
 				let rowName = "row" + x.description
@@ -60,7 +60,7 @@ class Keyboard: UIControl {
 				var horizontalVisualFormatString = "H:|-(\(edgeInsets[x].left))-"
 				var views = Dictionary<String, UIView>()
 				var firstEquallySizedView = -1
-				for i in 0..rowOfKeys.count {
+				for i in 0..<rowOfKeys.count {
 					let view = rowOfKeys[i]
 					let viewName = "view" + i.description
 					views.updateValue(view, forKey: viewName)
@@ -87,10 +87,10 @@ class Keyboard: UIControl {
 	}
 	
 	/// The edge insets for each row.
-	var edgeInsets = UIEdgeInsets[]()
+	var edgeInsets = [UIEdgeInsets]()
 	
 	/// The heights for each row.
-	var rowHeights = CGFloat[]()
+	var rowHeights = [CGFloat]()
 	
 	
 	// MARK: Helper functions
@@ -115,7 +115,7 @@ class Keyboard: UIControl {
 	var touchesToViews = Dictionary<UITouch, UIView>()
 	
 	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
-		for touch in touches.allObjects as UITouch[] {
+		for touch in touches.allObjects as [UITouch] {
 			let view = self.hitTest(touch.locationInView(self), withEvent: event)
 			touchesToViews[touch] = view
 			if let view = view as? KeyboardKey {
@@ -125,7 +125,7 @@ class Keyboard: UIControl {
 	}
 	
 	override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!)  {
-		for touch in touches.allObjects as UITouch[] {
+		for touch in touches.allObjects as [UITouch] {
 			let view = self.hitTest(touch.locationInView(self), withEvent: event)
 			let previousView = touchesToViews[touch]
 			if view != previousView {
@@ -141,7 +141,7 @@ class Keyboard: UIControl {
 	}
 	
 	override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
-		for touch in touches.allObjects as UITouch[] {
+		for touch in touches.allObjects as [UITouch] {
 			let view = touchesToViews[touch]
 			if let view = view as? KeyboardKey {
 				view.highlighted = false
@@ -152,7 +152,7 @@ class Keyboard: UIControl {
 	}
 	
 	override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
-		for touch in touches.allObjects as UITouch[] {
+		for touch in touches.allObjects as [UITouch] {
 			let view = touchesToViews[touch]
 			if let view = view as? KeyboardKey {
 				view.highlighted = false

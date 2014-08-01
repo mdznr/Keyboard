@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
-	@IBOutlet var textView: UITextView
+	@IBOutlet var textView: UITextView!
 	
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -40,11 +40,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
 	// Called when `UIKeyboardWillShowNotification` is sent.
 	func keyboardWillShow(aNotification: NSNotification) {
-		let sizeBegin = aNotification.userInfo.objectForKey(UIKeyboardFrameBeginUserInfoKey).CGRectValue().size
-		let sizeEnd = aNotification.userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
+		let info = aNotification.userInfo as NSDictionary
+		let sizeBegin = info.objectForKey(UIKeyboardFrameBeginUserInfoKey).CGRectValue().size
+		let sizeEnd = info.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
 		
-		let duration = aNotification.userInfo.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
-		let curve = aNotification.userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey).integerValue
+		let duration = info.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
+		let curve = info.objectForKey(UIKeyboardAnimationCurveUserInfoKey).integerValue
 		
 		
 		var animationCurve: UIViewAnimationCurve
@@ -64,11 +65,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
 	// Called when `UIKeyboardWillHideNotification` is sent.
 	func keyboardWillHide(aNotification: NSNotification) {
-		let sizeBegin = aNotification.userInfo.objectForKey(UIKeyboardFrameBeginUserInfoKey).CGRectValue().size
-		let sizeEnd = aNotification.userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
+		let info = aNotification.userInfo as NSDictionary
+		let sizeBegin = info.objectForKey(UIKeyboardFrameBeginUserInfoKey).CGRectValue().size
+		let sizeEnd = info.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
 		
-		let duration = aNotification.userInfo.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
-		let curve = aNotification.userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey).integerValue
+		let duration = info.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
+		let curve = info.objectForKey(UIKeyboardAnimationCurveUserInfoKey).integerValue
 		
 		
 		var animationCurve: UIViewAnimationCurve

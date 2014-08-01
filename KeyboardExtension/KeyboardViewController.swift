@@ -46,7 +46,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
 	// MARK: Letter Keys
 	
-	var letterKeys = LetterKey[]()
+	var letterKeys = [LetterKey]()
 	
 	// MARK: Special Keys
 	
@@ -102,13 +102,13 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 			UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
 		]
 		
-		var keys = KeyboardKey[][]()
+		var keys = [[KeyboardKey]]()
 		
 		let row1Letters = ["Q","W","E","R","T","Y","U","I","O","P"]
 		let row2Letters = ["A","S","D","F","G","H","J","K","L"]
 		let row3Letters = ["Z","X","C","V","B","N","M"]
 		
-		var row1Keys = KeyboardKey[]()
+		var row1Keys = [KeyboardKey]()
 		for letter in row1Letters {
 			let letterKey = self.letterKeyWithLetter(letter)
 			row1Keys.append(letterKey)
@@ -116,7 +116,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 		keys.append(row1Keys)
 		
-		var row2Keys = KeyboardKey[]()
+		var row2Keys = [KeyboardKey]()
 		for letter in row2Letters {
 			let letterKey = self.letterKeyWithLetter(letter)
 			row2Keys.append(letterKey)
@@ -124,7 +124,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 		keys.append(row2Keys)
 		
-		var row3Keys = KeyboardKey[]()
+		var row3Keys = [KeyboardKey]()
 		row3Keys.append(shiftKey)
 		shiftKey.action = {
 			self.shiftState = self.shiftKey.shiftState
@@ -140,7 +140,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		}
 		keys.append(row3Keys)
 		
-		var row4Keys = KeyboardKey[]()
+		var row4Keys = [KeyboardKey]()
 		row4Keys.append(symbolKeyboardKey)
 		symbolKeyboardKey.action = {
 		}
