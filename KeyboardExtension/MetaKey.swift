@@ -32,7 +32,7 @@ class MetaKey: KeyboardKey {
 		self.init(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
 	}
 	
-	init(frame: CGRect) {
+	override init(frame: CGRect) {
 		super.init(frame: frame)
 		// Initialization code
 		
@@ -43,6 +43,10 @@ class MetaKey: KeyboardKey {
 		self.addSubview(imageView)
 		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: nil, metrics: nil, views: ["imageView": imageView]))
 		self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: nil, metrics: nil, views: ["imageView": imageView]))
+	}
+
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
 	}
 	
 	let imageView: UIImageView = {

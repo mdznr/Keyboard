@@ -16,7 +16,7 @@ class LetterKey: KeyboardKey {
 		get {
 			let text = label.text
 //			return capitalized ? text.uppercaseString : text.lowercaseString
-			return text
+			return text!
 		}
 		set {
 			let letter = newValue.substringToIndex(1)
@@ -63,7 +63,7 @@ class LetterKey: KeyboardKey {
 		self.init(frame: CGRect(x: 0, y: 0, width: 22, height: 19))
 	}
 	
-	init(frame: CGRect) {
+	override init(frame: CGRect) {
 		super.init(frame: frame)
 		
 		self.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -80,6 +80,10 @@ class LetterKey: KeyboardKey {
 		keyDownView.addSubview(keyDownLabel)
 		keyDownView.hidden = true
 		self.addSubview(keyDownView)
+	}
+
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
 	}
 	
 	let label = UILabel()
@@ -102,7 +106,7 @@ class LetterKey: KeyboardKey {
 		return label
 	}()
 	
-	override func hitTest(point: CGPoint, withEvent event: UIEvent!) -> UIView! {
+	override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
 		return pointInside(point, withEvent: event) ? self : nil
 	}
 	

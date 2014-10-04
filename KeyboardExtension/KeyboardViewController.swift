@@ -50,7 +50,8 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
 	// MARK: Special Keys
 	
-	let shiftKey = ShiftKey()
+	// TODO: Shouldn't harcode frame.
+	let shiftKey: ShiftKey = ShiftKey(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
 	
 	let deleteKey: MetaKey = {
 		let key = MetaKey()
@@ -76,10 +77,19 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
 	// MARK: Initialization
 
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 		typer.delegate = self
     }
+
+    required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+    }
+	
+	override init() {
+		super.init()
+	}
+	
 	
 	// MARK: UIViewController
 
@@ -221,14 +231,14 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 		let appearance = self.keyboardAppearance()
 		self.inputView.backgroundColor = KeyboardAppearance.keyboardBackgroundColorForAppearance(appearance)
 		KeyboardDivider.appearance().backgroundColor = KeyboardAppearance.dividerColorForAppearance(appearance)
-		LetterKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
-		Spacebar.appearance().disabledTintColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
-		Spacebar.appearance().enabledTintColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
-		ShiftKey.appearance().disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
-		ShiftKey.appearance().enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
-		ReturnKey.appearance().disabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
-		ReturnKey.appearance().enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance).colorWithAlphaComponent(0.7)
-		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
+//		LetterKey.appearance().textColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+//		Spacebar.appearance().disabledTintColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+//		Spacebar.appearance().enabledTintColor = KeyboardAppearance.primaryButtonColorForAppearance(appearance)
+//		ShiftKey.appearance().disabledTintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
+//		ShiftKey.appearance().enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
+//		ReturnKey.appearance().disabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance)
+//		ReturnKey.appearance().enabledTintColor = KeyboardAppearance.enabledButtonColorForAppearance(appearance).colorWithAlphaComponent(0.7)
+//		UIButton.appearance().tintColor = KeyboardAppearance.secondaryButtonColorForApperance(appearance)
 	}
 	
 	// MARK: Gestures

@@ -30,12 +30,16 @@ class Spacebar: MetaKey {
 		return view
 	}()
 	
-    init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         // Initialization code
 		
 		horizontalLine.frame = CGRect(x: 0, y: CGRectGetMidY(self.bounds) - 0.5, width: self.bounds.size.width, height: 1)
 		self.addSubview(horizontalLine)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
     }
 
 }

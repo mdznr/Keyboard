@@ -25,9 +25,13 @@ class ShiftKey: MetaKey {
 		self.init(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
 	}
 	
-    init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         // Initialization code
+    }
+
+    required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
     }
 	
 	// MARK: Toggling state

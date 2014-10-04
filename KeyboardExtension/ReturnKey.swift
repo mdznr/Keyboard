@@ -42,13 +42,17 @@ class ReturnKey: MetaKey {
 		label.textColor = highlighted ? enabledTintColor : disabledTintColor
 	}
 	
-	init(frame: CGRect) {
+	override init(frame: CGRect) {
 		super.init(frame: frame)
 		
 		contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 14)
 		
 		self.addSubview(label)
 		label.frame = self.bounds
+	}
+
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
 	}
 	
 	let label: UILabel = {

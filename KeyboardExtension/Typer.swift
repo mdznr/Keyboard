@@ -48,7 +48,7 @@ class Typer: NSObject {
 	
 	// MARK: Initialization
 	
-	init() {
+	override init() {
 		super.init()
 	}
 	

@@ -18,21 +18,25 @@ class Keyboard: UIControl {
 	
 	// MARK: Initialization
 	
-	convenience init() {
+	convenience override init() {
 		self.init(frame: CGRectZero)
 	}
 	
-	init(frame: CGRect)  {
+	override init(frame: CGRect)  {
 		super.init(frame: frame)
 		self.autoresizingMask = .FlexibleWidth | .FlexibleHeight
 		
 		self.multipleTouchEnabled = true
 	}
+
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
 	
 	// MARK: Properties
 	
 	/// An array of rows (an array) of keys.
-	var keys: [[KeyboardKey]] = [[KeyboardKey]]() {
+	var keys: [[KeyboardKey]] = [[]] {
 		willSet {
 			// Remove all layout constraints.
 			self.removeConstraints(self.constraints())
@@ -48,8 +52,9 @@ class Keyboard: UIControl {
 				let rowOfKeys = keys[x]
 				let row = Keyboard.createRow()
 				let rowName = "row" + x.description
-				rows.updateValue(row, forKey: rowName)
+				rows[rowName] = row // rows.updateValue(row, forKey: rowName)
 				self.addSubview(row)
+				row.setTranslatesAutoresizingMaskIntoConstraints(false)
 				self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[row]|", options: nil, metrics: nil, views: ["row": row]))
 				let attribute: NSLayoutAttribute = (x == 0) ? .Top : .Bottom
 				self.addConstraint(NSLayoutConstraint(item: row, attribute: .Top, relatedBy: .Equal, toItem: previousView, attribute: attribute, multiplier: 1, constant: 0))
@@ -65,6 +70,7 @@ class Keyboard: UIControl {
 					let viewName = "view" + i.description
 					views.updateValue(view, forKey: viewName)
 					row.addSubview(view)
+					view.setTranslatesAutoresizingMaskIntoConstraints(false)
 					row.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[view]-(bottom)-|", options: nil, metrics: metrics, views: ["view": view]))
 					let contentSize = view.intrinsicContentSize()
 					if contentSize.width == UIViewNoIntrinsicMetric {
@@ -87,10 +93,10 @@ class Keyboard: UIControl {
 	}
 	
 	/// The edge insets for each row.
-	var edgeInsets = [UIEdgeInsets]()
+	var edgeInsets: [UIEdgeInsets] = []
 	
 	/// The heights for each row.
-	var rowHeights = [CGFloat]()
+	var rowHeights: [CGFloat] = []
 	
 	
 	// MARK: Helper functions
@@ -103,6 +109,7 @@ class Keyboard: UIControl {
 		view.addSubview(divider)
 		
 		let views = ["divider": divider]
+		divider.setTranslatesAutoresizingMaskIntoConstraints(false)
 		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[divider]|", options: nil, metrics: nil, views: views))
 		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[divider(0.5)]", options: nil, metrics: nil, views: views))
 		
@@ -114,7 +121,7 @@ class Keyboard: UIControl {
 	
 	var touchesToViews = Dictionary<UITouch, UIView>()
 	
-	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
 		for touch in touches.allObjects as [UITouch] {
 			let view = self.hitTest(touch.locationInView(self), withEvent: event)
 			touchesToViews[touch] = view
@@ -124,7 +131,7 @@ class Keyboard: UIControl {
 		}
 	}
 	
-	override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!)  {
+	override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
 		for touch in touches.allObjects as [UITouch] {
 			let view = self.hitTest(touch.locationInView(self), withEvent: event)
 			let previousView = touchesToViews[touch]
@@ -140,7 +147,7 @@ class Keyboard: UIControl {
 		}
 	}
 	
-	override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
+	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
 		for touch in touches.allObjects as [UITouch] {
 			let view = touchesToViews[touch]
 			if let view = view as? KeyboardKey {
@@ -151,7 +158,7 @@ class Keyboard: UIControl {
 		}
 	}
 	
-	override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
+	override func touchesCancelled(touches: NSSet, withEvent event: UIEvent) {
 		for touch in touches.allObjects as [UITouch] {
 			let view = touchesToViews[touch]
 			if let view = view as? KeyboardKey {
@@ -171,11 +178,15 @@ class KeyboardKey: UIView {
 	// What to do when this is selected.
 	var action: () -> () = {}
 	
-	init(frame: CGRect) {
+	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.setTranslatesAutoresizingMaskIntoConstraints(false)
 	}
 	
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+
 	/// Called when a key has been selected. Subclasses can use this to present differently. Must call super!
 	func didSelect() {
 		action()
@@ -185,17 +196,21 @@ class KeyboardKey: UIView {
 
 class KeyboardDivider: UIView {
 	
-	convenience init() {
+	convenience override init() {
 		self.init(frame: CGRectZero)
 	}
 	
-	init(frame: CGRect) {
+	override init(frame: CGRect) {
 		super.init(frame: frame)
 		// Initialization code
 		
 		self.setTranslatesAutoresizingMaskIntoConstraints(false)
 		
 		self.backgroundColor = KeyboardAppearance.dividerColorForAppearance(UIKeyboardAppearance.Default)
+	}
+
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
 	}
 	
 }
