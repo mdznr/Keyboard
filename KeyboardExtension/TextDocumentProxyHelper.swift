@@ -41,13 +41,13 @@ func UITextDocumentProxyIsAtBeginningOfPotentialWord(textDocumentProxy: UITextDo
 /// Whether the document context is empty or not.
 func UITextDocumentProxyIsEmpty(textDocumentProxy: UITextDocumentProxy) -> Bool {
 	if let precedingContext = textDocumentProxy.documentContextBeforeInput {
-		if countElements(precedingContext) == 0 {
+		if count(precedingContext) == 0 {
 			return true
 		}
 	}
 	
 	if let subsequentContext = textDocumentProxy.documentContextAfterInput {
-		if countElements(subsequentContext) == 0 {
+		if count(subsequentContext) == 0 {
 			return true
 		}
 	}

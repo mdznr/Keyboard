@@ -37,9 +37,9 @@ extension String {
 				break;
 			}
 			chunk = chunks[chunks.count - numberOfChunksToDelete]
-			var numElements = max(countElements(chunk), 1)
+			var numElements = max(count(chunk), 1)
 			numberOfElementsToDelete += numElements
-		} while ( countElements(chunk) == 0 )
+		} while ( count(chunk) == 0 )
 		
 		return numberOfElementsToDelete
 	}
@@ -61,9 +61,9 @@ extension String {
 				break;
 			}
 			chunk = chunks[numberOfChunksToDelete++]
-			var numElementsInChunk = max(countElements(chunk), 1)
+			var numElementsInChunk = max(count(chunk), 1)
 			numberOfElementsToDelete += numElementsInChunk
-		} while ( countElements(chunk) == 0 )
+		} while ( count(chunk) == 0 )
 		
 		return numberOfElementsToDelete
 	}

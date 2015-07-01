@@ -12,12 +12,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	@IBOutlet var textView: UITextView!
 	
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
 	
-	init(coder aDecoder: NSCoder!)  {
+	required init(coder aDecoder: NSCoder!)  {
 		super.init(coder: aDecoder)
 		// Custom initialization
 		
@@ -40,16 +40,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
 	// Called when `UIKeyboardWillShowNotification` is sent.
 	func keyboardWillShow(aNotification: NSNotification) {
-		let info = aNotification.userInfo as NSDictionary
-		let sizeBegin = info.objectForKey(UIKeyboardFrameBeginUserInfoKey).CGRectValue().size
-		let sizeEnd = info.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
 		
-		let duration = info.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
-		let curve = info.objectForKey(UIKeyboardAnimationCurveUserInfoKey).integerValue
+		let info = aNotification.userInfo!
+		
+		let sizeBegin = (info[UIKeyboardFrameBeginUserInfoKey]! as! NSValue).CGRectValue().size
+		let sizeEnd = (info[UIKeyboardFrameEndUserInfoKey]! as! NSValue).CGRectValue().size
+		
+		let duration = (info[UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+		let curve = (info[UIKeyboardAnimationCurveUserInfoKey]! as! NSNumber).doubleValue
 		
 		
 		var animationCurve: UIViewAnimationCurve
-		if let value = UIViewAnimationCurve.fromRaw(curve) {
+		if let value = UIViewAnimationCurve(rawValue: Int(curve)) {
 			animationCurve = value
 		} else {
 			animationCurve = UIViewAnimationCurve.EaseInOut
@@ -65,16 +67,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
 	// Called when `UIKeyboardWillHideNotification` is sent.
 	func keyboardWillHide(aNotification: NSNotification) {
-		let info = aNotification.userInfo as NSDictionary
-		let sizeBegin = info.objectForKey(UIKeyboardFrameBeginUserInfoKey).CGRectValue().size
-		let sizeEnd = info.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
+		let info = aNotification.userInfo!
 		
-		let duration = info.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
-		let curve = info.objectForKey(UIKeyboardAnimationCurveUserInfoKey).integerValue
+		let sizeBegin = (info[UIKeyboardFrameBeginUserInfoKey]! as! NSValue).CGRectValue().size
+		let sizeEnd = (info[UIKeyboardFrameEndUserInfoKey]! as! NSValue).CGRectValue().size
 		
+		let duration = (info[UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+		let curve = (info[UIKeyboardAnimationCurveUserInfoKey]! as! NSNumber).doubleValue
 		
 		var animationCurve: UIViewAnimationCurve
-		if let value = UIViewAnimationCurve.fromRaw(curve) {
+		if let value = UIViewAnimationCurve(rawValue: Int(curve)) {
 			animationCurve = value
 		} else {
 			animationCurve = UIViewAnimationCurve.EaseInOut

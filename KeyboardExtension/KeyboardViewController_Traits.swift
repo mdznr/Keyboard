@@ -14,7 +14,7 @@ extension KeyboardViewController {
 	
 	/// Provides textual context to a custom keyboard.
 	func traits() -> UITextDocumentProxy {
-		return self.textDocumentProxy as UITextDocumentProxy
+		return self.textDocumentProxy as! UITextDocumentProxy
 	}
 	
 	/// The auto-capitalization style for the text object.

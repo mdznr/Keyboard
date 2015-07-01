@@ -18,10 +18,6 @@ class Keyboard: UIControl {
 	
 	// MARK: Initialization
 	
-	convenience override init() {
-		self.init(frame: CGRectZero)
-	}
-	
 	override init(frame: CGRect)  {
 		super.init(frame: frame)
 		self.autoresizingMask = .FlexibleWidth | .FlexibleHeight
@@ -41,7 +37,7 @@ class Keyboard: UIControl {
 			// Remove all layout constraints.
 			self.removeConstraints(self.constraints())
 			// Remove all the rows from the view.
-			for view in self.subviews as [UIView] {
+			for view in self.subviews as! [UIView] {
 				view.removeFromSuperview()
 			}
 		}
@@ -121,24 +117,10 @@ class Keyboard: UIControl {
 	
 	var touchesToViews = Dictionary<UITouch, UIView>()
 	
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-		for touch in touches.allObjects as [UITouch] {
-			let view = self.hitTest(touch.locationInView(self), withEvent: event)
-			touchesToViews[touch] = view
-			if let view = view as? KeyboardKey {
-				view.highlighted = true
-			}
-		}
-	}
-	
-	override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-		for touch in touches.allObjects as [UITouch] {
-			let view = self.hitTest(touch.locationInView(self), withEvent: event)
-			let previousView = touchesToViews[touch]
-			if view != previousView {
-				if let previousView = previousView as? KeyboardKey {
-					previousView.highlighted = false
-				}
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+		for o in touches {
+			if let touch = o as? UITouch {
+				let view = self.hitTest(touch.locationInView(self), withEvent: event)
 				touchesToViews[touch] = view
 				if let view = view as? KeyboardKey {
 					view.highlighted = true
@@ -147,24 +129,49 @@ class Keyboard: UIControl {
 		}
 	}
 	
-	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-		for touch in touches.allObjects as [UITouch] {
-			let view = touchesToViews[touch]
-			if let view = view as? KeyboardKey {
-				view.highlighted = false
-				view.didSelect()
+	override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+		
+		for o in touches {
+			if let touch = o as? UITouch {
+				let view = self.hitTest(touch.locationInView(self), withEvent: event)
+				let previousView = touchesToViews[touch]
+				if view != previousView {
+					if let previousView = previousView as? KeyboardKey {
+						previousView.highlighted = false
+					}
+					touchesToViews[touch] = view
+					if let view = view as? KeyboardKey {
+						view.highlighted = true
+					}
+				}
 			}
-			touchesToViews.removeValueForKey(touch)
 		}
 	}
 	
-	override func touchesCancelled(touches: NSSet, withEvent event: UIEvent) {
-		for touch in touches.allObjects as [UITouch] {
-			let view = touchesToViews[touch]
-			if let view = view as? KeyboardKey {
-				view.highlighted = false
+	override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+		
+		for o in touches {
+			if let touch = o as? UITouch {
+				let view = touchesToViews[touch]
+				if let view = view as? KeyboardKey {
+					view.highlighted = false
+					view.didSelect()
+				}
+				touchesToViews.removeValueForKey(touch)
 			}
-			touchesToViews.removeValueForKey(touch)
+		}
+	}
+	
+	override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
+		
+		for o in touches {
+			if let touch = o as? UITouch {
+				let view = touchesToViews[touch]
+				if let view = view as? KeyboardKey {
+					view.highlighted = false
+				}
+				touchesToViews.removeValueForKey(touch)
+			}
 		}
 	}
 	
@@ -195,10 +202,6 @@ class KeyboardKey: UIView {
 }
 
 class KeyboardDivider: UIView {
-	
-	convenience override init() {
-		self.init(frame: CGRectZero)
-	}
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
