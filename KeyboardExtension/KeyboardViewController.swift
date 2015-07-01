@@ -19,7 +19,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	
 	var textualContext: UITextDocumentProxy {
 		get {
-			return self.textDocumentProxy as UITextDocumentProxy
+			return self.textDocumentProxy as! UITextDocumentProxy
 		}
 	}
 	
@@ -85,11 +85,6 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
     required init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
     }
-	
-	override init() {
-		super.init()
-	}
-	
 	
 	// MARK: UIViewController
 
@@ -192,7 +187,7 @@ class KeyboardViewController: UIInputViewController, TyperDelegate {
 	func letterKeyWithLetter(letter: String) -> LetterKey {
 		let letterKey = LetterKey(letter: letter)
 		letterKey.action = {
-			self.typer.typeAutocapitalizedString(letterKey.letter)
+			self.typer.typeAutocapitalizedString(letterKey.letter as String)
 		}
 		return letterKey
 	}
